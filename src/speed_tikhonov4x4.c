@@ -8,7 +8,7 @@
 int main(int argc, char *argv[]) {
 
   int n_inputs;
-  int firdeg = 6, msdeg = 3, msm = 8; // seg fault with firdeg=10
+  int firdeg = 10, msdeg = 3, msm = 8;
   double buffer_in[BATCH_SIZE][LEN];
   double buffer_out_exact[BATCH_SIZE][LEN];
   double buffer_out_fir[firdeg][BATCH_SIZE][LEN];
@@ -41,9 +41,11 @@ int main(int argc, char *argv[]) {
     t_mat += clock() - t_temp;
 
     // FIR graph filter
-    const double *fir_coeffs_ptr[6] = {tik4x4_fir1_coeffs, tik4x4_fir2_coeffs,
-                                       tik4x4_fir3_coeffs, tik4x4_fir4_coeffs,
-                                       tik4x4_fir5_coeffs, tik4x4_fir6_coeffs};
+    const double *fir_coeffs_ptr[10] = {
+        tik4x4_fir1_coeffs, tik4x4_fir2_coeffs, tik4x4_fir3_coeffs,
+        tik4x4_fir4_coeffs, tik4x4_fir5_coeffs, tik4x4_fir6_coeffs,
+        tik4x4_fir7_coeffs, tik4x4_fir8_coeffs, tik4x4_fir9_coeffs,
+        tik4x4_fir10_coeffs};
     for (int ord = 1; ord <= firdeg; ord++) {
       t_temp = clock();
       for (int i = 0; i < cur_batch_size; i++)

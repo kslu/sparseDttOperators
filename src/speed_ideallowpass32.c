@@ -8,7 +8,7 @@
 int main(int argc, char *argv[]) {
 
   int n_inputs;
-  int firdeg = 10, msdeg = 3, msm = 8; // seg fault with firdeg=10
+  int firdeg = 10, msdeg = 3, msm = 8;
   double buffer_in[BATCH_SIZE][LEN];
   double buffer_out_exact[BATCH_SIZE][LEN];
   double buffer_out_fir[firdeg][BATCH_SIZE][LEN];

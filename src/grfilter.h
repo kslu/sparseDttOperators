@@ -8,13 +8,9 @@
 #include <time.h>
 
 #define CONFIG_DEBUG 0
-#define MAX_NUM_DATA 2000
 #define MAX_GRAPH_SIZE 128
 #define MAX_EDGE_NUMBER MAX_GRAPH_SIZE *MAX_GRAPH_SIZE
-#define BATCH_SIZE 500
-
-#define SQRT2 1.414213564
-#define INVSQRT2 0.7071067812
+#define BATCH_SIZE 100
 
 #if CONFIG_DEBUG
 void show_coefficients(const double *input, const double *output, int n);
