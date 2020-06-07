@@ -79,9 +79,26 @@ void fir_graph_filter(const double *input, double *output, int n, int order,
   return;
 }
 
-void multishift_graph_filter(const double *input, double *output, int n, int m,
-                             const double *coeffs, int nops, const int *nedges,
-                             const int *powers, const int *alists[],
+void get_multishift_terms(const int *powers, int ord, int m, int nops,
+                          int *idx_list, int *pow_list) {
+  for (int k = 0; k < m; k++) {
+    int l = 0;
+    for (int opid = 0; opid < nops; opid++) {
+      int op_pow = powers[k * nops + opid];
+      if (op_pow == 0)
+        continue;
+      idx_list[k * ord + l] = opid;
+      pow_list[k * ord + l] = op_pow;
+      l++;
+    }
+  }
+  return;
+}
+
+void multishift_graph_filter(const double *input, double *output, int n,
+                             int ord, int m, const double *coeffs,
+                             const int *idx_list, const int *pow_list,
+                             const int *nedges, const int *alists[],
                              const double *wlists[]) {
   double temp1[MAX_GRAPH_SIZE], temp2[MAX_GRAPH_SIZE];
   for (int i = 0; i < n; i++)
@@ -89,16 +106,15 @@ void multishift_graph_filter(const double *input, double *output, int n, int m,
   for (int k = 0; k < m; k++) {
     for (int j = 0; j < n; j++)
       temp2[j] = input[j];
-    // skip id=0 because it corresponds to identity matrix
-    for (int opid = 1; opid < nops; opid++) {
-      int oppower = powers[k * nops + opid];
-      if (oppower == 0)
+    for (int op = 0; op < ord; op++) {
+      int pow = pow_list[k * ord + op], idx = idx_list[k * ord + op];
+      if (pow == 0)
+        break;
+      if (idx == 0)
         continue;
-      // fprintf(stderr, "applying %d-th power of operator #%d\n", oppower,
-      // opid+1);
-      for (int j = 0; j < oppower; j++) {
-        apply_sparse_operator(temp2, temp1, n, nedges[opid], 0, alists[opid],
-                              wlists[opid]);
+      for (int j = 0; j < pow; j++) {
+        apply_sparse_operator(temp2, temp1, n, nedges[idx], 0, alists[idx],
+                              wlists[idx]);
         for (int l = 0; l < n; l++)
           temp2[l] = temp1[l];
       }

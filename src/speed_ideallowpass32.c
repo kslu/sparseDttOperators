@@ -72,12 +72,16 @@ int main(int argc, char *argv[]) {
         lp32_msl3m6_powers, lp32_msl3m7_powers, lp32_msl3m8_powers};
     for (int l = 1; l <= msdeg; l++) {
       for (int m = 1; m <= msm; m++) {
+        // parse the power list
+        int idx_list[3 * 8] = {0}, pow_list[3 * 8] = {0};
+        get_multishift_terms(ms_powers_ptr[(l - 1) * msm + m - 1], l, m,
+                             NOPS_LD32, idx_list, pow_list);
         t_temp = clock();
         for (int i = 0; i < cur_batch_size; i++)
           multishift_graph_filter(
-              buffer_in[i], buffer_out_ms[(l - 1) * msm + m - 1][i], LEN, m,
-              ms_coeffs_ptr[(l - 1) * msm + m - 1], NOPS_LD32, nes_bd32,
-              ms_powers_ptr[(l - 1) * msm + m - 1], alists_bd32, wlists_bd32);
+              buffer_in[i], buffer_out_ms[(l - 1) * msm + m - 1][i], LEN, l, m,
+              ms_coeffs_ptr[(l - 1) * msm + m - 1], idx_list, pow_list,
+              nes_bd32, alists_bd32, wlists_bd32);
         t_ms[(l - 1) * msm + m - 1] += clock() - t_temp;
       }
     }
