@@ -18,6 +18,16 @@ void show_coefficients(const double *input, const double *output, int n);
 
 void mat_times_vec(const double *input, double *output, const double *gftmtx,
                    int n);
+
+void dct4(const double *input, double *output);
+void idct4(const double *input, double *output);
+void dct8(const double *input, double *output);
+void idct8(const double *input, double *output);
+void dct4x4(const double *input, double *output);
+void idct4x4(const double *input, double *output);
+void dct8x8(const double *input, double *output);
+void idct8x8(const double *input, double *output);
+
 void apply_sparse_operator(const double *input, double *output, int n,
                            const int nedges, const double mev,
                            const int *adjlist, const double *wlist);
