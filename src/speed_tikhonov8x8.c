@@ -11,11 +11,12 @@ int main(int argc, char *argv[]) {
   int firdeg = 10, msdeg = 3, msm = 8;
   double buffer_in[BATCH_SIZE][LEN];
   double buffer_out_exact[BATCH_SIZE][LEN];
+  double buffer_out_mat[BATCH_SIZE][LEN];
   double buffer_out_fir[firdeg][BATCH_SIZE][LEN];
   double buffer_out_ms[msdeg * msm][BATCH_SIZE][LEN];
 
   double diff;
-  double acc_error_fir[10] = {0}, acc_error_ms[3 * 8] = {0};
+  double acc_error_mat = 0, acc_error_fir[10] = {0}, acc_error_ms[3 * 8] = {0};
 
   // read inputs
   FILE *fp_in = fopen(argv[1], "r");
@@ -25,7 +26,8 @@ int main(int argc, char *argv[]) {
 
   int n_batches = ceil((double)n_inputs / (double)BATCH_SIZE);
   int cur_batch_size = 0;
-  clock_t t_temp = 0, t_mat = 0, t_fir[10] = {0}, t_ms[3 * 8] = {0};
+  clock_t t_temp = 0, t_exact = 0, t_mat = 0, t_fir[10] = {0},
+          t_ms[3 * 8] = {0};
 
   for (int b = 0; b < n_batches; b++) {
     cur_batch_size = b < n_batches - 1 ? BATCH_SIZE : n_inputs - b * BATCH_SIZE;
@@ -34,11 +36,23 @@ int main(int argc, char *argv[]) {
         fscanf(fp_in, "%lf", &buffer_in[i][j]);
     }
 
+    // Exact filter
+    t_temp = clock();
+    for (int i = 0; i < cur_batch_size; i++)
+      exact_filter_8x8(buffer_in[i], buffer_out_exact[i], h8x8_tik);
+    t_exact += clock() - t_temp;
+
     // matrix multiplication
     t_temp = clock();
     for (int i = 0; i < cur_batch_size; i++)
-      mat_times_vec(buffer_in[i], buffer_out_exact[i], tik8x8_t16, LEN);
+      mat_times_vec(buffer_in[i], buffer_out_mat[i], tik8x8_t16, LEN);
     t_mat += clock() - t_temp;
+    for (int i = 0; i < cur_batch_size; i++) {
+      for (int j = 0; j < LEN; j++) {
+        diff = buffer_out_exact[i][j] - buffer_out_mat[i][j];
+        acc_error_mat += diff * diff;
+      }
+    }
 
     // FIR graph filter
     const double *fir_coeffs_ptr[10] = {
@@ -135,9 +149,12 @@ int main(int argc, char *argv[]) {
   }
 
   // write runtime
+  double time_exact = ((double)t_exact) / CLOCKS_PER_SEC;
   double time_mat = ((double)t_mat) / CLOCKS_PER_SEC;
   fprintf(fp_out, "#input = %d\n", n_inputs);
-  fprintf(fp_out, "Exact filter:    %.8lf\n", time_mat);
+  fprintf(fp_out, "Exact filter:    %.8lf\n", time_exact);
+  fprintf(fp_out, "Matrix filter:    %.8lf", time_mat);
+  fprintf(fp_out, " (error = %.8lf)\n", acc_error_mat / ((double)n_inputs));
   for (int ord = 1; ord <= firdeg; ord++) {
     double time_fir = ((double)t_fir[ord - 1]) / CLOCKS_PER_SEC;
     fprintf(fp_out, "FIR filter (order = %d):    %.8lf", ord, time_fir);

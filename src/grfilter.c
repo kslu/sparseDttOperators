@@ -232,6 +232,24 @@ void idct8x8(const double *input, double *output) {
   }
 }
 
+void exact_filter_4x4(const double *input, double *output, double *h) {
+  double temp[16] = {0};
+  dct4x4(input, temp);
+  for (int i = 0; i < 16; i++)
+    temp[i] *= h[i];
+  idct4x4(temp, output);
+  return;
+}
+
+void exact_filter_8x8(const double *input, double *output, double *h) {
+  double temp[64] = {0};
+  dct8x8(input, temp);
+  for (int i = 0; i < 64; i++)
+    temp[i] *= h[i];
+  idct8x8(temp, output);
+  return;
+}
+
 void apply_sparse_laplacian(const double *input, double *output, int n,
                             const int nedges, const double mev,
                             const int *adjlist, const double *wlist) {
