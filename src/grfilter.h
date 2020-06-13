@@ -99,6 +99,7 @@ static const double h32_tik[32] = {
 
 void exact_filter_4x4(const double *input, double *output, const double *h);
 void exact_filter_8x8(const double *input, double *output, const double *h);
+void exact_filter_32(const double *input, double *output, const double *h);
 void apply_sparse_operator(const double *input, double *output, int n,
                            const int nedges, const double mev,
                            const int *adjlist, const double *wlist);
