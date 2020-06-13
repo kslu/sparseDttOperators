@@ -934,8 +934,12 @@ void apply_sparse_operator(const double *input, double *output, int n,
                            const int nedges, const double mev,
                            const int *adjlist, const double *wlist) {
   int s = 0, t = 0;
-  for (int i = 0; i < n; i++)
-    output[i] = -mev * input[i];
+  if (mev == 0) {
+    memset(output, 0, n * sizeof(double));
+  } else {
+    for (int i = 0; i < n; i++)
+      output[i] = -mev * input[i];
+  }
   for (int i = 0; i < nedges; i++) {
     s = adjlist[i * 2];
     t = adjlist[i * 2 + 1];
@@ -965,10 +969,11 @@ void fir_graph_filter(const double *input, double *output, int n, int order,
 
 void get_multishift_terms(const int *powers, int ord, int m, int nops,
                           int *idx_list, int *pow_list) {
+  int l = 0, op_pow = 0;
   for (int k = 0; k < m; k++) {
-    int l = 0;
+    l = 0;
     for (int opid = 0; opid < nops; opid++) {
-      int op_pow = powers[k * nops + opid];
+      op_pow = powers[k * nops + opid];
       if (op_pow == 0)
         continue;
       idx_list[k * ord + l] = opid;
@@ -984,14 +989,14 @@ void multishift_graph_filter(const double *input, double *output, int n,
                              const int *idx_list, const int *pow_list,
                              const int *nedges, const int *alists[],
                              const double *wlists[]) {
-  double temp1[MAX_GRAPH_SIZE], temp2[MAX_GRAPH_SIZE];
-  for (int i = 0; i < n; i++)
-    output[i] = 0;
+  double temp1[MAX_GRAPH_SIZE] = {0}, temp2[MAX_GRAPH_SIZE] = {0};
+  int pow = 0, idx = 0, idxlist = 0;
   for (int k = 0; k < m; k++) {
     for (int j = 0; j < n; j++)
       temp2[j] = input[j];
     for (int op = 0; op < ord; op++) {
-      int pow = pow_list[k * ord + op], idx = idx_list[k * ord + op];
+      pow = pow_list[idxlist + op];
+      idx = idx_list[idxlist + op];
       if (pow == 0)
         break;
       if (idx == 0)
@@ -1003,6 +1008,7 @@ void multishift_graph_filter(const double *input, double *output, int n,
           temp2[l] = temp1[l];
       }
     }
+    idxlist += ord;
     for (int j = 0; j < n; j++)
       output[j] += coeffs[k] * temp2[j];
   }
