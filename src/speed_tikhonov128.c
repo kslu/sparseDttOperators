@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
     // matrix multiplication
     t_temp = clock();
     for (int i = 0; i < cur_batch_size; i++)
-      mat_times_vec(buffer_in[i], buffer_out_exact[i], tik128_t16, LEN);
+      mat_times_vec(buffer_in[i], buffer_out_exact[i], tik128, LEN);
     t_mat += clock() - t_temp;
 
     // FIR graph filter

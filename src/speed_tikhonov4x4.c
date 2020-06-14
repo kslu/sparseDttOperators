@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
     // matrix multiplication
     t_temp = clock();
     for (int i = 0; i < cur_batch_size; i++)
-      mat_times_vec(buffer_in[i], buffer_out_mat[i], tik4x4_t16, LEN);
+      mat_times_vec(buffer_in[i], buffer_out_mat[i], tik4x4, LEN);
     t_mat += clock() - t_temp;
     for (int i = 0; i < cur_batch_size; i++) {
       for (int j = 0; j < LEN; j++) {
