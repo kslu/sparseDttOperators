@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-O2
 
-all: speed_tikhonov4x4 speed_tikhonov8x8 speed_tikhonov32 speed_tikhonov128 speed_ideallowpass4x4 speed_ideallowpass8x8 speed_ideallowpass32 speed_ideallowpass128
+all: speed_tikhonov4x4 speed_tikhonov8x8 speed_tikhonov32 speed_tikhonov128 speed_ideallowpass4x4 speed_ideallowpass8x8 speed_ideallowpass32 speed_ideallowpass128 speed_exp4x4 speed_exp8x8 speed_exp32 speed_exp128
 
 speed_tikhonov4x4: grfilter.o speed_tikhonov4x4.o
 	$(CC) -o $@ $? -lm
@@ -51,9 +51,33 @@ speed_ideallowpass128: grfilter.o speed_ideallowpass128.o
 speed_ideallowpass128.o: src/speed_ideallowpass128.c
 	$(CC) -c $<
 
+speed_exp4x4: grfilter.o speed_exp4x4.o
+	$(CC) -o $@ $? -lm
+
+speed_exp4x4.o: src/speed_exp4x4.c
+	$(CC) -c $<
+
+speed_exp8x8: grfilter.o speed_exp8x8.o
+	$(CC) -o $@ $? -lm
+
+speed_exp8x8.o: src/speed_exp8x8.c
+	$(CC) -c $<
+
+speed_exp32: grfilter.o speed_exp32.o
+	$(CC) -o $@ $? -lm
+
+speed_exp32.o: src/speed_exp32.c
+	$(CC) -c $<
+
+speed_exp128: grfilter.o speed_exp128.o
+	$(CC) -o $@ $? -lm
+
+speed_exp128.o: src/speed_exp128.c
+	$(CC) -c $<
+
 grfilter.o: src/grfilter.c
 	@echo "grfilter.o"
 	$(CC) -c $<
 
 clean:
-		rm -rf *.o speed_tikhonov4x4 speed_tikhonov8x8 speed_tikhonov32 speed_tikhonov128 speed_ideallowpass4x4 speed_ideallowpass8x8 speed_ideallowpass32 speed_ideallowpass128
+		rm -rf *.o speed_tikhonov4x4 speed_tikhonov8x8 speed_tikhonov32 speed_tikhonov128 speed_ideallowpass4x4 speed_ideallowpass8x8 speed_ideallowpass32 speed_ideallowpass128 speed_exp4x4 speed_exp8x8 speed_exp32 speed_exp128

@@ -8,3 +8,7 @@
 ./speed_ideallowpass8x8 input/data64_20000.txt output/rt_lp8x8.txt
 ./speed_ideallowpass32 input/data32_20000.txt output/rt_lp32.txt
 ./speed_ideallowpass128 input/data128_20000.txt output/rt_lp128.txt
+./speed_exp4x4 input/data16_20000.txt output/rt_exp4x4.txt
+./speed_exp8x8 input/data64_20000.txt output/rt_exp8x8.txt
+./speed_exp32 input/data32_20000.txt output/rt_exp32.txt
+./speed_exp128 input/data128_20000.txt output/rt_exp128.txt
