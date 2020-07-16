@@ -2,38 +2,38 @@
 #define FILTERS_H_
 
 #define MEV_LD32 1.995185
-static const double tik32_fir1_coeffs[2] = {0.7078438930, -0.1226561789};
+static const double tik32_pgf1_coeffs[2] = {0.7078438930, -0.1226561789};
 
-static const double tik32_fir2_coeffs[3] = {0.6658321328, -0.1215410131,
+static const double tik32_pgf2_coeffs[3] = {0.6658321328, -0.1215410131,
                                             0.0210441335};
 
-static const double tik32_fir3_coeffs[4] = {0.6660070659, -0.1107284952,
+static const double tik32_pgf3_coeffs[4] = {0.6660070659, -0.1107284952,
                                             0.0208692980, -0.0036106212};
 
-static const double tik32_fir4_coeffs[5] = {
+static const double tik32_pgf4_coeffs[5] = {
     0.6672414913, -0.1107830313, 0.0183957101, -0.0035833755, 0.0006195013};
 
-static const double tik32_fir5_coeffs[6] = {0.6672372649, -0.1113125471,
+static const double tik32_pgf5_coeffs[6] = {0.6672372649, -0.1113125471,
                                             0.0184083743, -0.0030528540,
                                             0.0006152848, -0.0001062949};
 
-static const double tik32_fir6_coeffs[7] = {
+static const double tik32_pgf6_coeffs[7] = {
     0.6672009946, -0.1113105989, 0.0185719142, -0.0030554475,
     0.0005060512, -0.0001056475, 0.0000182386};
 
-static const double tik32_fir7_coeffs[8] = {
+static const double tik32_pgf7_coeffs[8] = {
     0.6672010937, -0.1112888171, 0.0185713209, -0.0030990975,
     0.0005065446, -0.0000837808, 0.0000181402, -0.0000031296};
 
-static const double tik32_fir8_coeffs[9] = {
+static const double tik32_pgf8_coeffs[9] = {
     0.6672021594,  -0.1112888768, 0.0185627783,  -0.0030989485, 0.0005172441,
     -0.0000838700, 0.0000138521,  -0.0000031147, 0.0000005370};
 
-static const double tik32_fir9_coeffs[10] = {
+static const double tik32_pgf9_coeffs[10] = {
     0.6672021571,  -0.1112896996, 0.0185628005,  -0.0030962002, 0.0005172108,
     -0.0000863484, 0.0000138675,  -0.0000022870, 0.0000005348,  -0.0000000922};
 
-static const double tik32_fir10_coeffs[11] = {
+static const double tik32_pgf10_coeffs[11] = {
     0.6672021258, -0.1112896980, 0.0185631927, -0.0030962067,
     0.0005164249, -0.0000863416, 0.0000144188, -0.0000022896,
     0.0000003770, -0.0000000918, 0.0000000158};
@@ -355,38 +355,38 @@ static const int tik32_msl3m8_powers[264] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,
     2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-static const double lp32_fir1_coeffs[2] = {0.2371884526, -0.2220960064};
+static const double lp32_pgf1_coeffs[2] = {0.2371884526, -0.2220960064};
 
-static const double lp32_fir2_coeffs[3] = {-0.0842611470, -0.2135634057,
+static const double lp32_pgf2_coeffs[3] = {-0.0842611470, -0.2135634057,
                                            0.1610174924};
 
-static const double lp32_fir3_coeffs[4] = {-0.0801821289, 0.0385584421,
+static const double lp32_pgf3_coeffs[4] = {-0.0801821289, 0.0385584421,
                                            0.1569407504, -0.0841909814};
 
-static const double lp32_fir4_coeffs[5] = {
+static const double lp32_pgf4_coeffs[5] = {
     -0.0546617585, 0.0374309696, 0.1058020751, -0.0836277074, 0.0128075004};
 
-static const double lp32_fir5_coeffs[6] = {-0.0532476813, 0.2145991479,
+static const double lp32_pgf5_coeffs[6] = {-0.0532476813, 0.2145991479,
                                            0.1015648228,  -0.2611323820,
                                            0.0142183040,  0.0355646969};
 
-static const double lp32_fir6_coeffs[7] = {
+static const double lp32_pgf6_coeffs[7] = {
     0.0515448370, 0.2089703621, -0.3709366344, -0.2536391857,
     0.3298173634, 0.0336942939, -0.0526953100};
 
-static const double lp32_fir7_coeffs[8] = {
+static const double lp32_pgf7_coeffs[8] = {
     0.0502265486, -0.0807951676, -0.3630437392, 0.3270400258,
     0.3232537198, -0.2572000417, -0.0513852832, 0.0416328226};
 
-static const double lp32_fir8_coeffs[9] = {
+static const double lp32_pgf8_coeffs[9] = {
     0.0217801397,  -0.0791997744, -0.1350051431, 0.3230626860, 0.0376374885,
     -0.2548202177, 0.0630819516,  0.0412372642,  -0.0143351925};
 
-static const double lp32_fir9_coeffs[10] = {
+static const double lp32_pgf9_coeffs[10] = {
     0.0214452464,  -0.2025503641, -0.1316686179, 0.7350815675,  0.0326510587,
     -0.6263842709, 0.0654005032,  0.1653349311,  -0.0146652240, -0.0138149588};
 
-static const double lp32_fir10_coeffs[11] = {
+static const double lp32_pgf10_coeffs[11] = {
     -0.0384215979, -0.1994102097, 0.6182691322, 0.7225822025,
     -1.4703640484, -0.6133234812, 1.1196636055, 0.1603833058,
     -0.3164853903, -0.0131989582, 0.0302409474};
@@ -708,38 +708,38 @@ static const int lp32_msl3m8_powers[264] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-static const double exp32_fir1_coeffs[2] = {0.2277120637, -0.1789368493};
+static const double exp32_pgf1_coeffs[2] = {0.2277120637, -0.1789368493};
 
-static const double exp32_fir2_coeffs[3] = {0.1192510364, -0.1760578454,
+static const double exp32_pgf2_coeffs[3] = {0.1192510364, -0.1760578454,
                                             0.0543292717};
 
-static const double exp32_fir3_coeffs[4] = {0.1164466728, -0.3493940049,
+static const double exp32_pgf3_coeffs[4] = {0.1164466728, -0.3493940049,
                                             0.0571320704, 0.0578820975};
 
-static const double exp32_fir4_coeffs[5] = {
+static const double exp32_pgf4_coeffs[5] = {
     -0.0829503966, -0.3405847788, 0.4566913944, 0.0534810959, -0.1000682199};
 
-static const double exp32_fir5_coeffs[6] = {-0.0801049730, 0.0159152278,
+static const double exp32_pgf5_coeffs[6] = {-0.0801049730, 0.0159152278,
                                             0.4481651427,  -0.3036960129,
                                             -0.0972293833, 0.0715637245};
 
-static const double exp32_fir6_coeffs[7] = {
+static const double exp32_pgf6_coeffs[7] = {
     -0.0490130191, 0.0142451663, 0.3079738984, -0.3014727806,
     -0.0035911011, 0.0710087756, -0.0156347054};
 
-static const double exp32_fir7_coeffs[8] = {
+static const double exp32_pgf7_coeffs[8] = {
     -0.0482915604, 0.1728249141, 0.3036543600,  -0.6192606244,
     0.0000009789,  0.2302062842, -0.0163516427, -0.0227843612};
 
-static const double exp32_fir8_coeffs[9] = {
+static const double exp32_pgf8_coeffs[9] = {
     0.0074110348, 0.1697008804,  -0.1428814986, -0.6114723603, 0.5592830096,
     0.2255462100, -0.2404967035, -0.0220097950, 0.0280705881};
 
-static const double exp32_fir9_coeffs[10] = {
+static const double exp32_pgf9_coeffs[10] = {
     0.0070945143,  0.0531174879,  -0.1397280201, -0.2220574484, 0.5545701428,
     -0.1256332859, -0.2383053511, 0.0952796890,  0.0277586626,  -0.0130570495};
 
-static const double exp32_fir10_coeffs[11] = {
+static const double exp32_pgf10_coeffs[11] = {
     0.0111571852, 0.0529043914,  -0.1906201344, -0.2212092192,
     0.6565674306, -0.1265196144, -0.3098495269, 0.0956157152,
     0.0482407178, -0.0130988524, -0.0020522047};
@@ -1062,38 +1062,38 @@ static const int exp32_msl3m8_powers[264] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 #define MEV_LD128 1.999699
-static const double tik128_fir1_coeffs[2] = {0.7071956864, -0.1216550385};
+static const double tik128_pgf1_coeffs[2] = {0.7071956864, -0.1216550385};
 
-static const double tik128_fir2_coeffs[3] = {0.6654554032, -0.1213414366,
+static const double tik128_pgf2_coeffs[3] = {0.6654554032, -0.1213414366,
                                              0.0208726417};
 
-static const double tik128_fir3_coeffs[4] = {0.6655081441, -0.1105992072,
+static const double tik128_pgf3_coeffs[4] = {0.6655081441, -0.1105992072,
                                              0.0208199011, -0.0035811695};
 
-static const double tik128_fir4_coeffs[5] = {
+static const double tik128_pgf4_coeffs[5] = {
     0.6667367097, -0.1106169420, 0.0183624726, -0.0035723022, 0.0006144301};
 
-static const double tik128_fir5_coeffs[6] = {0.6667352192, -0.1111439126,
+static const double tik128_pgf5_coeffs[6] = {0.6667352192, -0.1111439126,
                                              0.0183669440, -0.0030452681,
                                              0.0006129397, -0.0001054193};
 
-static const double tik128_fir6_coeffs[7] = {
+static const double tik128_pgf6_coeffs[7] = {
     0.6666990581, -0.1111431612, 0.0185296887, -0.0030462699,
     0.0005044301, -0.0001051689, 0.0000180871};
 
-static const double tik128_fir7_coeffs[8] = {
+static const double tik128_pgf7_coeffs[8] = {
     0.6666991002, -0.1111214463, 0.0185294363, -0.0030897050,
     0.0005046405, -0.0000834487, 0.0000180450, -0.0000031032};
 
-static const double tik128_fir8_coeffs[9] = {
+static const double tik128_pgf8_coeffs[9] = {
     0.6667001645,  -0.1111214746, 0.0185209204,  -0.0030896343, 0.0005152866,
     -0.0000834911, 0.0000137860,  -0.0000030962, 0.0000005324};
 
-static const double tik128_fir9_coeffs[10] = {
+static const double tik128_pgf9_coeffs[10] = {
     0.6667001633,  -0.1111222963, 0.0185209323,  -0.0030868948, 0.0005152688,
     -0.0000859570, 0.0000137943,  -0.0000022741, 0.0000005312,  -0.0000000914};
 
-static const double tik128_fir10_coeffs[11] = {
+static const double tik128_pgf10_coeffs[11] = {
     0.6667001320, -0.1111222953, 0.0185213240, -0.0030868988,
     0.0005144854, -0.0000859528, 0.0000143428, -0.0000022757,
     0.0000003745, -0.0000000912, 0.0000000157};
@@ -1836,38 +1836,38 @@ static const int tik128_msl3m8_powers[1032] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0};
 
-static const double lp128_fir1_coeffs[2] = {0.2465630797, -0.2242861479};
+static const double lp128_pgf1_coeffs[2] = {0.2465630797, -0.2242861479};
 
-static const double lp128_fir2_coeffs[3] = {-0.0725261432, -0.2218887756,
+static const double lp128_pgf2_coeffs[3] = {-0.0725261432, -0.2218887756,
                                             0.1595637236};
 
-static const double lp128_fir3_coeffs[4] = {-0.0713881667, 0.0098933821,
+static const double lp128_pgf3_coeffs[4] = {-0.0713881667, 0.0098933821,
                                             0.1584257555, -0.0772699195};
 
-static const double lp128_fir4_coeffs[5] = {
+static const double lp128_pgf4_coeffs[5] = {
     -0.0651081938, 0.0098027286, 0.1458642893, -0.0772245933, 0.0031407396};
 
-static const double lp128_fir5_coeffs[6] = {-0.0645036704, 0.2235370556,
+static const double lp128_pgf5_coeffs[6] = {-0.0645036704, 0.2235370556,
                                             0.1440507425,  -0.2909846655,
                                             0.0037452474,  0.0427570868};
 
-static const double lp128_fir6_coeffs[7] = {
+static const double lp128_pgf6_coeffs[7] = {
     0.0416407010, 0.2213315877, -0.3336570100, -0.2880440880,
     0.3222553314, 0.0420219540, -0.0530913102};
 
-static const double lp128_fir7_coeffs[8] = {
+static const double lp128_pgf7_coeffs[8] = {
     0.0411716653, -0.0207507967, -0.3308428491, 0.1961793471,
     0.3199102415, -0.2001187923, -0.0526223010, 0.0345956386};
 
-static const double lp128_fir8_coeffs[9] = {
+static const double lp128_pgf8_coeffs[9] = {
     0.0341684216,  -0.0205648409, -0.2748100637, 0.1957144679, 0.2498607919,
     -0.1998398709, -0.0245991646, 0.0345491528,  -0.0035033078};
 
-static const double lp128_fir9_coeffs[10] = {
+static const double lp128_pgf9_coeffs[10] = {
     0.0338767069,  -0.2226626692, -0.2718929910, 0.8694558851,  0.2454852940,
     -0.8062803550, -0.0225573172, 0.2367201896,  -0.0037949929, -0.0224661168};
 
-static const double lp128_fir10_coeffs[11] = {
+static const double lp128_pgf10_coeffs[11] = {
     -0.0296057527, -0.2206457333, 0.5217348740, 0.8613883751,
     -1.3419633182, -0.7978097138, 1.0887907777, 0.2334933714,
     -0.3213610530, -0.0220627761, 0.0317603821};
@@ -2610,38 +2610,38 @@ static const int lp128_msl3m8_powers[1032] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0};
 
-static const double exp128_fir1_coeffs[2] = {0.2243448503, -0.1699941920};
+static const double exp128_pgf1_coeffs[2] = {0.2243448503, -0.1699941920};
 
-static const double exp128_fir2_coeffs[3] = {0.1383528332, -0.1693481192,
+static const double exp128_pgf2_coeffs[3] = {0.1383528332, -0.1693481192,
                                              0.0430011591};
 
-static const double exp128_fir3_coeffs[4] = {0.1373384559, -0.3759556916,
+static const double exp128_pgf3_coeffs[4] = {0.1373384559, -0.3759556916,
                                              0.0440155289, 0.0688773919};
 
-static const double exp128_fir4_coeffs[5] = {
+static const double exp128_pgf4_coeffs[5] = {
     -0.0714880261, -0.3729412117, 0.4617190527, 0.0673701670, -0.1044382844};
 
-static const double exp128_fir5_coeffs[6] = {-0.0705417447, -0.0383754649,
+static const double exp128_pgf5_coeffs[6] = {-0.0705417447, -0.0383754649,
                                              0.4588802452,  -0.2672358796,
                                              -0.1034920274, 0.0669291492};
 
-static const double exp128_fir6_coeffs[7] = {
+static const double exp128_pgf6_coeffs[7] = {
     -0.0578141608, -0.0386399187, 0.4015991531, -0.2668832801,
     -0.0653000463, 0.0668410008,  -0.0063660851};
 
-static const double exp128_fir7_coeffs[8] = {
+static const double exp128_pgf7_coeffs[8] = {
     -0.0574106945, 0.1696002673, 0.3991784012,  -0.6834141172,
     -0.0632827910, 0.2751313899, -0.0067695286, -0.0297592997};
 
-static const double exp128_fir8_coeffs[9] = {
+static const double exp128_pgf8_coeffs[9] = {
     0.0010368463, 0.1680483211,  -0.0684589716, -0.6795343374, 0.5213345953,
     0.2728035732, -0.2406444964, -0.0293713387, 0.0292378408};
 
-static const double exp128_fir9_coeffs[10] = {
+static const double exp128_pgf9_coeffs[10] = {
     0.0009059711, 0.0773789195,  -0.0671502528, -0.3772662149, 0.5193715668,
     0.0007294185, -0.2397284396, 0.0613309072,  0.0291069788,  -0.0100792244};
 
-static const double exp128_fir10_coeffs[11] = {
+static const double exp128_pgf10_coeffs[11] = {
     0.0115310729, 0.0770413436,  -0.1999802796, -0.3759159503,
     0.7850639032, -0.0006883183, -0.4257355138, 0.0618709819,
     0.0822582227, -0.0101467318, -0.0053157564};
@@ -3385,38 +3385,38 @@ static const int exp128_msl3m8_powers[1032] = {
     0, 0, 0, 0, 0, 0, 0};
 
 #define MEV_LDD4X4 3.414214
-static const double tik4x4_fir1_coeffs[2] = {0.5791641369, -0.0901723593};
+static const double tik4x4_pgf1_coeffs[2] = {0.5791641369, -0.0901723593};
 
-static const double tik4x4_fir2_coeffs[3] = {0.5358409735, -0.0852313226,
+static const double tik4x4_pgf2_coeffs[3] = {0.5358409735, -0.0852313226,
                                              0.0123570495};
 
-static const double tik4x4_fir3_coeffs[4] = {0.5369437223, -0.0711584510,
+static const double tik4x4_pgf3_coeffs[4] = {0.5369437223, -0.0711584510,
                                              0.0122372859, -0.0017690403};
 
-static const double tik4x4_fir4_coeffs[5] = {
+static const double tik4x4_pgf4_coeffs[5] = {
     0.5398285614, -0.0715650361, 0.0093339500, -0.0017619839, 0.0002616775};
 
-static const double tik4x4_fir5_coeffs[6] = {0.5396343852, -0.0730769751,
+static const double tik4x4_pgf5_coeffs[6] = {0.5396343852, -0.0730769751,
                                              0.0095199575, -0.0011615239,
                                              0.0002504883, -0.0000420947};
 
-static const double tik4x4_fir6_coeffs[7] = {
+static const double tik4x4_pgf6_coeffs[7] = {
     0.5394750111, -0.0727620030, 0.0099248613, -0.0012938130,
     0.0001384707, -0.0000331510, 0.0000067630};
 
-static const double tik4x4_fir7_coeffs[8] = {
+static const double tik4x4_pgf7_coeffs[8] = {
     0.5395065342, -0.0727547155, 0.0098005130, -0.0013511575,
     0.0001793038, -0.0000154452, 0.0000041573, -0.0000011022};
 
-static const double tik4x4_fir8_coeffs[9] = {
+static const double tik4x4_pgf8_coeffs[9] = {
     0.5395042868,  -0.0727686347, 0.0098135238,  -0.0013171351, 0.0001833331,
     -0.0000255832, 0.0000016602,  -0.0000004741, 0.0000001765};
 
-static const double tik4x4_fir9_coeffs[10] = {
+static const double tik4x4_pgf9_coeffs[10] = {
     0.5395042868, 0.4392109312, 0.2691634684, -1.3734521863, -1.2042361256,
     0.1813766986, 0.3794381761, 0.0530167459, -0.0238503661, -0.0050446142};
 
-static const double tik4x4_fir10_coeffs[11] = {
+static const double tik4x4_pgf10_coeffs[11] = {
     0.5395042868,  -0.0702047004, 0.0110478062, -0.0082213076,
     -0.0056753637, 0.0010346214,  0.0018789766, 0.0002172190,
     -0.0001259447, -0.0000222576, 0.0000006356};
@@ -3710,39 +3710,39 @@ static const int tik4x4_msl3m8_powers[200] = {
     1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0,
     2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0};
 
-static const double lp4x4_fir1_coeffs[2] = {0.1785714286, -0.1724438259};
+static const double lp4x4_pgf1_coeffs[2] = {0.1785714286, -0.1724438259};
 
-static const double lp4x4_fir2_coeffs[3] = {-0.0265027852, -0.1490549705,
+static const double lp4x4_pgf2_coeffs[3] = {-0.0265027852, -0.1490549705,
                                             0.0584932404};
 
-static const double lp4x4_fir3_coeffs[4] = {-0.0210674502, -0.0796912393,
+static const double lp4x4_pgf3_coeffs[4] = {-0.0210674502, -0.0796912393,
                                             0.0579029377, -0.0087194170};
 
-static const double lp4x4_fir4_coeffs[5] = {
+static const double lp4x4_pgf4_coeffs[5] = {
     -0.0869907177, -0.0704001081, 0.1242488855, -0.0088806670, -0.0059797574};
 
-static const double lp4x4_fir5_coeffs[6] = {-0.0602839352, 0.1375503204,
+static const double lp4x4_pgf5_coeffs[6] = {-0.0602839352, 0.1375503204,
                                             0.0986656174,  -0.0914672781,
                                             -0.0044407963, 0.0057896539};
 
-static const double lp4x4_fir6_coeffs[7] = {
+static const double lp4x4_pgf6_coeffs[7] = {
     -0.0526401334, 0.1224438255, 0.0792458718, -0.0851225100,
     0.0009317220,  0.0053607018, -0.0003243616};
 
-static const double lp4x4_fir7_coeffs[8] = {
+static const double lp4x4_pgf7_coeffs[8] = {
     0.0660672228, 0.1498865643, -0.3890161861, -0.3010664728,
     0.1546983120, 0.0720359908, -0.0101365958, -0.0041504789};
 
-static const double lp4x4_fir8_coeffs[9] = {
+static const double lp4x4_pgf8_coeffs[9] = {
     -0.0000000000, -0.2592940466, -0.0065374174, 0.6990906081, 0.2731472060,
     -0.2259918734, -0.0835447111, 0.0143134551,  0.0051880344};
 
-static const double lp4x4_fir9_coeffs[10] = {
+static const double lp4x4_pgf9_coeffs[10] = {
     -0.0000000017, -29.2699836679, -14.7022816354, 78.4494282099,
     68.5200879471, -10.5049280737, -21.5838461446, -2.9898418177,
     1.3566495652,  0.2858468294};
 
-static const double lp4x4_fir10_coeffs[11] = {
+static const double lp4x4_pgf10_coeffs[11] = {
     -0.0000000000, -0.4756155393, -0.1192593834, 1.2772534457,
     0.7904576116,  -0.2952476585, -0.2449772205, -0.0104155753,
     0.0149400490,  0.0022777952,  0.0000309535};
@@ -4036,38 +4036,38 @@ static const int lp4x4_msl3m8_powers[200] = {
     1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-static const double exp4x4_fir1_coeffs[2] = {0.0839531974, -0.0362699626};
+static const double exp4x4_pgf1_coeffs[2] = {0.0839531974, -0.0362699626};
 
-static const double exp4x4_fir2_coeffs[3] = {0.1095114758, -0.0391849019,
+static const double exp4x4_pgf2_coeffs[3] = {0.1095114758, -0.0391849019,
                                              -0.0072899781};
 
-static const double exp4x4_fir3_coeffs[4] = {0.1001893135, -0.1581508830,
+static const double exp4x4_pgf3_coeffs[4] = {0.1001893135, -0.1581508830,
                                              -0.0062775479, 0.0149547030};
 
-static const double exp4x4_fir4_coeffs[5] = {
+static const double exp4x4_pgf4_coeffs[5] = {
     0.0385681787, -0.1494660882, 0.0557386833, 0.0148039761, -0.0055895202};
 
-static const double exp4x4_fir5_coeffs[6] = {0.0290864529,  -0.2232948591,
+static const double exp4x4_pgf5_coeffs[6] = {0.0290864529,  -0.2232948591,
                                              0.0648215270,  0.0441247524,
                                              -0.0061358985, -0.0020555045};
 
-static const double exp4x4_fir6_coeffs[7] = {
+static const double exp4x4_pgf6_coeffs[7] = {
     -0.1098368288, 0.0512601215, 0.4177682507, -0.0711890692,
     -0.1037794401, 0.0057405425, 0.0058951529};
 
-static const double exp4x4_fir7_coeffs[8] = {
+static const double exp4x4_pgf7_coeffs[8] = {
     -0.0447480147, 0.0663073384, 0.1610139684, -0.1895940012,
     -0.0194671843, 0.0422994856, 0.0005149750, -0.0022757625};
 
-static const double exp4x4_fir8_coeffs[9] = {
+static const double exp4x4_pgf8_coeffs[9] = {
     0.0000015573, 0.3434592516, -0.0980518810, -0.8670343323, -0.0996966398,
     0.2441638716, 0.0502367826, -0.0147820116, -0.0035140318};
 
-static const double exp4x4_fir9_coeffs[10] = {
+static const double exp4x4_pgf9_coeffs[10] = {
     0.0000015584, 20.8434551455, 10.2864891299, -55.8082171304, -48.3254376760,
     7.5076296027, 15.2431224690, 2.1080620696,  -0.9585053192,  -0.2019896426};
 
-static const double exp4x4_fir10_coeffs[11] = {
+static const double exp4x4_pgf10_coeffs[11] = {
     0.0000015573,  0.5443868778,  0.0035939209, -1.4056013260,
     -0.5720075829, 0.3156772566,  0.1990991262, 0.0059234037,
     -0.0128883925, -0.0019734022, 0.0000013471};
@@ -4362,38 +4362,38 @@ static const int exp4x4_msl3m8_powers[200] = {
     2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0};
 
 #define MEV_LDD8X8 3.847759
-static const double tik8x8_fir1_coeffs[2] = {0.5470367738, -0.0811298031};
+static const double tik8x8_pgf1_coeffs[2] = {0.5470367738, -0.0811298031};
 
-static const double tik8x8_fir2_coeffs[3] = {0.5051305503, -0.0761774970,
+static const double tik8x8_pgf2_coeffs[3] = {0.5051305503, -0.0761774970,
                                              0.0109182001};
 
-static const double tik8x8_fir3_coeffs[4] = {0.5071506246, -0.0631678064,
+static const double tik8x8_pgf3_coeffs[4] = {0.5071506246, -0.0631678064,
                                              0.0103695139, -0.0014923091};
 
-static const double tik8x8_fir4_coeffs[5] = {
+static const double tik8x8_pgf4_coeffs[5] = {
     0.5099957958, -0.0637261634, 0.0078767254, -0.0014240548, 0.0002009018};
 
-static const double tik8x8_fir5_coeffs[6] = {0.5098754977, -0.0651099895,
+static const double tik8x8_pgf5_coeffs[6] = {0.5098754977, -0.0651099895,
                                              0.0079651496, -0.0009705092,
                                              0.0001939770, -0.0000273344};
 
-static const double tik8x8_fir6_coeffs[7] = {
+static const double tik8x8_pgf6_coeffs[7] = {
     0.5096804253, -0.0650628956, 0.0083228287, -0.0009847184,
     0.0001189691, -0.0000265437, 0.0000036909};
 
-static const double tik8x8_fir7_coeffs[8] = {
+static const double tik8x8_pgf7_coeffs[8] = {
     0.5096876363, -0.0649345043, 0.0083128650, -0.0010668607,
     0.0001207984, -0.0000143019, 0.0000036134, -0.0000005035};
 
-static const double tik8x8_fir8_coeffs[9] = {
+static const double tik8x8_pgf8_coeffs[9] = {
     0.5097009878,  -0.0649387071, 0.0082708859,  -0.0010645322, 0.0001371273,
     -0.0000146051, 0.0000016924,  -0.0000004930, 0.0000000686};
 
-static const double tik8x8_fir9_coeffs[10] = {
+static const double tik8x8_pgf9_coeffs[10] = {
     0.5097004217,  -0.0649498265, 0.0082723343,  -0.0010527522, 0.0001366149,
     -0.0000177660, 0.0000017468,  -0.0000001886, 0.0000000669,  -0.0000000096};
 
-static const double tik8x8_fir10_coeffs[11] = {
+static const double tik8x8_pgf10_coeffs[11] = {
     0.5096995045, -0.0649491590, 0.0082768242, -0.0010534330,
     0.0001337963, -0.0000175880, 0.0000023335, -0.0000002052,
     0.0000000185, -0.0000000091, 0.0000000014};
@@ -4916,38 +4916,38 @@ static const int tik8x8_msl3m8_powers[648] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-static const double lp8x8_fir1_coeffs[2] = {0.2064667208, -0.1701128315};
+static const double lp8x8_pgf1_coeffs[2] = {0.2064667208, -0.1701128315};
 
-static const double lp8x8_fir2_coeffs[3] = {0.0267570379, -0.1488754762,
+static const double lp8x8_pgf2_coeffs[3] = {0.0267570379, -0.1488754762,
                                             0.0468213576};
 
-static const double lp8x8_fir3_coeffs[4] = {0.0258079177, -0.1549880042,
+static const double lp8x8_pgf3_coeffs[4] = {0.0258079177, -0.1549880042,
                                             0.0470791547, 0.0007011528};
 
-static const double lp8x8_fir4_coeffs[5] = {
+static const double lp8x8_pgf4_coeffs[5] = {
     -0.0640732731, -0.1373490673, 0.1258283011, -0.0014550560, -0.0063466451};
 
-static const double lp8x8_fir5_coeffs[6] = {-0.0534115863, -0.0147043332,
+static const double lp8x8_pgf5_coeffs[6] = {-0.0534115863, -0.0147043332,
                                             0.1179914986,  -0.0416515668,
                                             -0.0057329171, 0.0024225749};
 
-static const double lp8x8_fir6_coeffs[7] = {
+static const double lp8x8_pgf6_coeffs[7] = {
     -0.0611839595, -0.0128279449, 0.1322426974, -0.0422177142,
     -0.0087214953, 0.0024540795,  0.0001470600};
 
-static const double lp8x8_fir7_coeffs[8] = {
+static const double lp8x8_pgf7_coeffs[8] = {
     -0.0535628674, 0.1228654252, 0.1217123299, -0.1290316733,
     -0.0067881232, 0.0153921054, 0.0000651175, -0.0005321512};
 
-static const double lp8x8_fir8_coeffs[9] = {
+static const double lp8x8_pgf8_coeffs[9] = {
     -0.0173324389, 0.1114606481,  0.0077980141,  -0.1227132602, 0.0375218755,
     0.0145695254,  -0.0051478205, -0.0005035107, 0.0001862168};
 
-static const double lp8x8_fir9_coeffs[10] = {
+static const double lp8x8_pgf9_coeffs[10] = {
     -0.0151657200, 0.1540221576,  0.0022538079,  -0.1678034126, 0.0394832519,
     0.0266687708,  -0.0053561090, -0.0016683808, 0.0001927454,  0.0000366451};
 
-static const double lp8x8_fir10_coeffs[11] = {
+static const double lp8x8_pgf10_coeffs[11] = {
     0.0224774502, 0.1266286663, -0.1820045092, -0.1398653938,
     0.1551535603, 0.0193642243, -0.0294341786, -0.0009885459,
     0.0021814065, 0.0000162465, -0.0000564329};
@@ -5470,38 +5470,38 @@ static const int lp8x8_msl3m8_powers[648] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-static const double exp8x8_fir1_coeffs[2] = {0.1013434123, -0.0444288187};
+static const double exp8x8_pgf1_coeffs[2] = {0.1013434123, -0.0444288187};
 
-static const double exp8x8_fir2_coeffs[3] = {0.1307138825, -0.0478997007,
+static const double exp8x8_pgf2_coeffs[3] = {0.1307138825, -0.0478997007,
                                              -0.0076521491};
 
-static const double exp8x8_fir3_coeffs[4] = {0.1098545009, -0.1822383745,
+static const double exp8x8_pgf3_coeffs[4] = {0.1098545009, -0.1822383745,
                                              -0.0019863898, 0.0154096540};
 
-static const double exp8x8_fir4_coeffs[5] = {
+static const double exp8x8_pgf4_coeffs[5] = {
     0.0390416664, -0.1683415502, 0.0600560712, 0.0137108864, -0.0050002000};
 
-static const double exp8x8_fir5_coeffs[6] = {0.0331378810,  -0.2362546503,
+static const double exp8x8_pgf5_coeffs[6] = {0.0331378810,  -0.2362546503,
                                              0.0643956097,  0.0359692384,
                                              -0.0053400447, -0.0013414728};
 
-static const double exp8x8_fir6_coeffs[7] = {
+static const double exp8x8_pgf6_coeffs[7] = {
     -0.0584700327, -0.2141388801, 0.2323652321, 0.0292964273,
     -0.0405644752, -0.0009701490, 0.0017333010};
 
-static const double exp8x8_fir7_coeffs[8] = {
+static const double exp8x8_pgf7_coeffs[8] = {
     -0.0511894151, -0.0845076510, 0.2223053118, -0.0536390929,
     -0.0387174770, 0.0113898669,  0.0016550192, -0.0005083772};
 
-static const double exp8x8_fir8_coeffs[9] = {
+static const double exp8x8_pgf8_coeffs[9] = {
     -0.0843169597, -0.0740796136, 0.3264636596,  -0.0594163780, -0.0792326328,
     0.0121419987,  0.0064215053,  -0.0005345648, -0.0001702686};
 
-static const double exp8x8_fir9_coeffs[10] = {
+static const double exp8x8_pgf9_coeffs[10] = {
     -0.0721148791, 0.1656095130, 0.2952409430,  -0.3133457943, -0.0681869581,
     0.0802800326,  0.0052485090, -0.0070946397, -0.0001335021, 0.0002063702};
 
-static const double exp8x8_fir10_coeffs[11] = {
+static const double exp8x8_pgf10_coeffs[11] = {
     -0.0405299044, 0.1426246601, 0.1406366879,  -0.2899040488,
     0.0288676669,  0.0741510611, -0.0149544977, -0.0065242157,
     0.0015351089,  0.0001892545, -0.0000473507};

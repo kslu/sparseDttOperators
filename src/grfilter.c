@@ -953,9 +953,9 @@ void apply_sparse_operator(const double *input, double *output, int n,
   return;
 }
 
-void fir_graph_filter(const double *input, double *output, int n, int order,
-                      const double *coeffs, const int nedges, const double mev,
-                      const int *adjlist, const double *wlist) {
+void pgf(const double *input, double *output, int n, int order,
+         const double *coeffs, const int nedges, const double mev,
+         const int *adjlist, const double *wlist) {
   double temp[MAX_GRAPH_SIZE];
   for (int i = 0; i < n; i++)
     output[i] = coeffs[order] * input[i];
@@ -967,8 +967,8 @@ void fir_graph_filter(const double *input, double *output, int n, int order,
   return;
 }
 
-void get_multishift_terms(const int *powers, int ord, int m, int nops,
-                          int *idx_list, int *pow_list) {
+void get_mpgf_terms(const int *powers, int ord, int m, int nops, int *idx_list,
+                    int *pow_list) {
   int l = 0, op_pow = 0;
   for (int k = 0; k < m; k++) {
     l = 0;
@@ -984,11 +984,9 @@ void get_multishift_terms(const int *powers, int ord, int m, int nops,
   return;
 }
 
-void multishift_graph_filter(const double *input, double *output, int n,
-                             int ord, int m, const double *coeffs,
-                             const int *idx_list, const int *pow_list,
-                             const int *nedges, const int *alists[],
-                             const double *wlists[]) {
+void mpgf(const double *input, double *output, int n, int ord, int m,
+          const double *coeffs, const int *idx_list, const int *pow_list,
+          const int *nedges, const int *alists[], const double *wlists[]) {
   double temp1[MAX_GRAPH_SIZE] = {0}, temp2[MAX_GRAPH_SIZE] = {0};
   int pow = 0, idx = 0, idxlist = 0;
   for (int k = 0; k < m; k++) {
