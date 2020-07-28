@@ -23,57 +23,57 @@ int main(int argc, char *argv[]) {
   double acc_error_mat = 0, acc_error_pgf[10] = {0},
          acc_error_ms[MSDEG * MSM] = {0}, acc_error_me[MSDEG * MEM] = {0};
 
-  const double *pgf_coeffs_ptr[10] = {lp4x4_pgf1_coeffs, lp4x4_pgf2_coeffs,
-                                      lp4x4_pgf3_coeffs, lp4x4_pgf4_coeffs,
-                                      lp4x4_pgf5_coeffs, lp4x4_pgf6_coeffs,
-                                      lp4x4_pgf7_coeffs, lp4x4_pgf8_coeffs,
-                                      lp4x4_pgf9_coeffs, lp4x4_pgf10_coeffs};
+  const double *pgf_coeffs_ptr[10] = {
+      diff4x4_pgf1_coeffs, diff4x4_pgf2_coeffs, diff4x4_pgf3_coeffs,
+      diff4x4_pgf4_coeffs, diff4x4_pgf5_coeffs, diff4x4_pgf6_coeffs,
+      diff4x4_pgf7_coeffs, diff4x4_pgf8_coeffs, diff4x4_pgf9_coeffs,
+      diff4x4_pgf10_coeffs};
   const double *me_coeffs_ptr[MSDEG * MEM] = {
-      lp4x4_mel1m1_coeffs,
-      lp4x4_mel1m2_coeffs,
-      lp4x4_mel1m3_coeffs,
-      lp4x4_mel1m4_coeffs,
-      lp4x4_mel2m1_coeffs,
-      lp4x4_mel2m2_coeffs,
-      lp4x4_mel2m3_coeffs,
+      diff4x4_mel1m1_coeffs,
+      diff4x4_mel1m2_coeffs,
+      diff4x4_mel1m3_coeffs,
+      diff4x4_mel1m4_coeffs,
+      diff4x4_mel2m1_coeffs,
+      diff4x4_mel2m2_coeffs,
+      diff4x4_mel2m3_coeffs,
       NULL,
-      lp4x4_mel3m1_coeffs,
-      lp4x4_mel3m2_coeffs,
+      diff4x4_mel3m1_coeffs,
+      diff4x4_mel3m2_coeffs,
       NULL,
       NULL,
   };
   const int *me_powers_ptr[MSDEG * MEM] = {
-      lp4x4_mel1m1_powers,
-      lp4x4_mel1m2_powers,
-      lp4x4_mel1m3_powers,
-      lp4x4_mel1m4_powers,
-      lp4x4_mel2m1_powers,
-      lp4x4_mel2m2_powers,
-      lp4x4_mel2m3_powers,
+      diff4x4_mel1m1_powers,
+      diff4x4_mel1m2_powers,
+      diff4x4_mel1m3_powers,
+      diff4x4_mel1m4_powers,
+      diff4x4_mel2m1_powers,
+      diff4x4_mel2m2_powers,
+      diff4x4_mel2m3_powers,
       NULL,
-      lp4x4_mel3m1_powers,
-      lp4x4_mel3m2_powers,
+      diff4x4_mel3m1_powers,
+      diff4x4_mel3m2_powers,
       NULL,
       NULL,
   };
   const double *ms_coeffs_ptr[MSDEG * MSM] = {
-      lp4x4_msl1m1_coeffs, lp4x4_msl1m2_coeffs, lp4x4_msl1m3_coeffs,
-      lp4x4_msl1m4_coeffs, lp4x4_msl1m5_coeffs, lp4x4_msl1m6_coeffs,
-      lp4x4_msl1m7_coeffs, lp4x4_msl1m8_coeffs, lp4x4_msl2m1_coeffs,
-      lp4x4_msl2m2_coeffs, lp4x4_msl2m3_coeffs, lp4x4_msl2m4_coeffs,
-      lp4x4_msl2m5_coeffs, lp4x4_msl2m6_coeffs, lp4x4_msl2m7_coeffs,
-      lp4x4_msl2m8_coeffs, lp4x4_msl3m1_coeffs, lp4x4_msl3m2_coeffs,
-      lp4x4_msl3m3_coeffs, lp4x4_msl3m4_coeffs, lp4x4_msl3m5_coeffs,
-      lp4x4_msl3m6_coeffs, lp4x4_msl3m7_coeffs, lp4x4_msl3m8_coeffs};
+      diff4x4_msl1m1_coeffs, diff4x4_msl1m2_coeffs, diff4x4_msl1m3_coeffs,
+      diff4x4_msl1m4_coeffs, diff4x4_msl1m5_coeffs, diff4x4_msl1m6_coeffs,
+      diff4x4_msl1m7_coeffs, diff4x4_msl1m8_coeffs, diff4x4_msl2m1_coeffs,
+      diff4x4_msl2m2_coeffs, diff4x4_msl2m3_coeffs, diff4x4_msl2m4_coeffs,
+      diff4x4_msl2m5_coeffs, diff4x4_msl2m6_coeffs, diff4x4_msl2m7_coeffs,
+      diff4x4_msl2m8_coeffs, diff4x4_msl3m1_coeffs, diff4x4_msl3m2_coeffs,
+      diff4x4_msl3m3_coeffs, diff4x4_msl3m4_coeffs, diff4x4_msl3m5_coeffs,
+      diff4x4_msl3m6_coeffs, diff4x4_msl3m7_coeffs, diff4x4_msl3m8_coeffs};
   const int *ms_powers_ptr[MSDEG * MSM] = {
-      lp4x4_msl1m1_powers, lp4x4_msl1m2_powers, lp4x4_msl1m3_powers,
-      lp4x4_msl1m4_powers, lp4x4_msl1m5_powers, lp4x4_msl1m6_powers,
-      lp4x4_msl1m7_powers, lp4x4_msl1m8_powers, lp4x4_msl2m1_powers,
-      lp4x4_msl2m2_powers, lp4x4_msl2m3_powers, lp4x4_msl2m4_powers,
-      lp4x4_msl2m5_powers, lp4x4_msl2m6_powers, lp4x4_msl2m7_powers,
-      lp4x4_msl2m8_powers, lp4x4_msl3m1_powers, lp4x4_msl3m2_powers,
-      lp4x4_msl3m3_powers, lp4x4_msl3m4_powers, lp4x4_msl3m5_powers,
-      lp4x4_msl3m6_powers, lp4x4_msl3m7_powers, lp4x4_msl3m8_powers};
+      diff4x4_msl1m1_powers, diff4x4_msl1m2_powers, diff4x4_msl1m3_powers,
+      diff4x4_msl1m4_powers, diff4x4_msl1m5_powers, diff4x4_msl1m6_powers,
+      diff4x4_msl1m7_powers, diff4x4_msl1m8_powers, diff4x4_msl2m1_powers,
+      diff4x4_msl2m2_powers, diff4x4_msl2m3_powers, diff4x4_msl2m4_powers,
+      diff4x4_msl2m5_powers, diff4x4_msl2m6_powers, diff4x4_msl2m7_powers,
+      diff4x4_msl2m8_powers, diff4x4_msl3m1_powers, diff4x4_msl3m2_powers,
+      diff4x4_msl3m3_powers, diff4x4_msl3m4_powers, diff4x4_msl3m5_powers,
+      diff4x4_msl3m6_powers, diff4x4_msl3m7_powers, diff4x4_msl3m8_powers};
 
   // read inputs
   FILE *fp_in = fopen(argv[1], "r");
@@ -102,13 +102,13 @@ int main(int argc, char *argv[]) {
     // Exact filter
     t_temp = clock();
     for (int i = 0; i < cur_batch_size; i++)
-      exact_filter_4x4(buffer_in[i], buffer_out_exact[i], h4x4_lp);
+      exact_filter_4x4(buffer_in[i], buffer_out_exact[i], h4x4_diff);
     t_exact += clock() - t_temp;
 
     // matrix multiplication
     t_temp = clock();
     for (int i = 0; i < cur_batch_size; i++)
-      mat_times_vec(buffer_in[i], buffer_out_mat[i], lp4x4, LEN);
+      mat_times_vec(buffer_in[i], buffer_out_mat[i], diff4x4, LEN);
     t_mat += clock() - t_temp;
     for (int i = 0; i < cur_batch_size; i++) {
       for (int j = 0; j < LEN; j++) {
@@ -216,8 +216,8 @@ int main(int argc, char *argv[]) {
   double time_mat = ((double)t_mat) / CLOCKS_PER_SEC;
   fprintf(fp_out, "#input = %d\n", n_inputs);
   fprintf(fp_out, "Exact filter:    %.8lf\n", time_exact);
-  fprintf(fp_out, "Matrix filter:    %.8lf ", time_mat);
-  fprintf(fp_out, "(error = %.8lf)\n", acc_error_mat / ((double)n_inputs));
+  fprintf(fp_out, "Matrix filter:    %.8lf", time_mat);
+  fprintf(fp_out, " (error = %.8lf)\n", acc_error_mat / ((double)n_inputs));
   for (int ord = 1; ord <= FIRDEG; ord++) {
     double time_pgf = ((double)t_pgf[ord - 1]) / CLOCKS_PER_SEC;
     fprintf(fp_out, "FIR filter (order = %d):    %.8lf", ord, time_pgf);

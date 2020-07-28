@@ -20,15 +20,15 @@ int main(int argc, char *argv[]) {
   double buffer_out_me[MSDEG * MEM][BATCH_SIZE][LEN];
 
   double diff;
-  double acc_error_mat = 0, acc_error_pgf[10] = {0}, acc_error_ms[3 * 8] = {0},
-         acc_error_me[3 * 4] = {0};
+  double acc_error_mat = 0, acc_error_pgf[10] = {0},
+         acc_error_ms[MSDEG * MSM] = {0}, acc_error_me[MSDEG * MEM] = {0};
 
   const double *pgf_coeffs_ptr[10] = {tik4x4_pgf1_coeffs, tik4x4_pgf2_coeffs,
                                       tik4x4_pgf3_coeffs, tik4x4_pgf4_coeffs,
                                       tik4x4_pgf5_coeffs, tik4x4_pgf6_coeffs,
                                       tik4x4_pgf7_coeffs, tik4x4_pgf8_coeffs,
                                       tik4x4_pgf9_coeffs, tik4x4_pgf10_coeffs};
-  const double *me_coeffs_ptr[3 * 4] = {
+  const double *me_coeffs_ptr[MSDEG * MEM] = {
       tik4x4_mel1m1_coeffs,
       tik4x4_mel1m2_coeffs,
       tik4x4_mel1m3_coeffs,
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
       NULL,
       NULL,
   };
-  const int *me_powers_ptr[3 * 4] = {
+  const int *me_powers_ptr[MSDEG * MEM] = {
       tik4x4_mel1m1_powers,
       tik4x4_mel1m2_powers,
       tik4x4_mel1m3_powers,
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
       NULL,
       NULL,
   };
-  const double *ms_coeffs_ptr[3 * 8] = {
+  const double *ms_coeffs_ptr[MSDEG * MSM] = {
       tik4x4_msl1m1_coeffs, tik4x4_msl1m2_coeffs, tik4x4_msl1m3_coeffs,
       tik4x4_msl1m4_coeffs, tik4x4_msl1m5_coeffs, tik4x4_msl1m6_coeffs,
       tik4x4_msl1m7_coeffs, tik4x4_msl1m8_coeffs, tik4x4_msl2m1_coeffs,
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
       tik4x4_msl2m8_coeffs, tik4x4_msl3m1_coeffs, tik4x4_msl3m2_coeffs,
       tik4x4_msl3m3_coeffs, tik4x4_msl3m4_coeffs, tik4x4_msl3m5_coeffs,
       tik4x4_msl3m6_coeffs, tik4x4_msl3m7_coeffs, tik4x4_msl3m8_coeffs};
-  const int *ms_powers_ptr[3 * 8] = {
+  const int *ms_powers_ptr[MSDEG * MSM] = {
       tik4x4_msl1m1_powers, tik4x4_msl1m2_powers, tik4x4_msl1m3_powers,
       tik4x4_msl1m4_powers, tik4x4_msl1m5_powers, tik4x4_msl1m6_powers,
       tik4x4_msl1m7_powers, tik4x4_msl1m8_powers, tik4x4_msl2m1_powers,
@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
   int n_batches = ceil((double)n_inputs / (double)BATCH_SIZE);
   int cur_batch_size = 0;
   clock_t t_temp = 0, t_exact = 0, t_mat = 0, t_pgf[10] = {0},
-          t_ms[3 * 8] = {0}, t_me[3 * 4] = {0};
+          t_ms[MSDEG * MSM] = {0}, t_me[MSDEG * MEM] = {0};
 
   for (int b = 0; b < n_batches; b++) {
     cur_batch_size = b < n_batches - 1 ? BATCH_SIZE : n_inputs - b * BATCH_SIZE;
@@ -138,7 +138,7 @@ int main(int argc, char *argv[]) {
         if (!me_coeffs_ptr[(l - 1) * MEM + m - 1])
           continue;
         // parse the power list
-        int idx_list[3 * 4] = {0}, pow_list[3 * 4] = {0};
+        int idx_list[MSDEG * MEM] = {0}, pow_list[MSDEG * MEM] = {0};
         get_mpgf_terms(me_powers_ptr[(l - 1) * MEM + m - 1], l, m, NOPS_LDD4X4,
                        idx_list, pow_list);
         t_temp = clock();
@@ -161,7 +161,7 @@ int main(int argc, char *argv[]) {
     for (int l = 1; l <= MSDEG; l++) {
       for (int m = 1; m <= MSM; m++) {
         // parse the power list
-        int idx_list[3 * 8] = {0}, pow_list[3 * 8] = {0};
+        int idx_list[MSDEG * MSM] = {0}, pow_list[MSDEG * MSM] = {0};
         get_mpgf_terms(ms_powers_ptr[(l - 1) * MSM + m - 1], l, m, NOPS_LDD4X4,
                        idx_list, pow_list);
         t_temp = clock();
