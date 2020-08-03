@@ -3553,6 +3553,37 @@ static const double tik32_pgf10_coeffs[11] = {
     0.0005163560, -0.0000863315, 0.0000144676, -0.0000022930,
     0.0000003630, -0.0000000914, 0.0000000172};
 
+// degree L
+// no. operators M
+// polynomial P
+static const double tik32_mupgf_m2l1_coeffs[4] = {
+    0.9500, -0.1213, // p1
+    0.0, 0.0210,     // p2
+};
+static const double tik32_mupgf_m2l2_coeffs[6] = {
+    0.8686, 0.0379, -0.0398, // p1
+    0.0,    0.0608, 0.0008,  // p2
+};
+static const double tik32_mupgf_m2l3_coeffs[8] = {
+    0.8531, 0.0517, -0.0299, -0.0036, // p1
+    0.0,    0.0720, 0.0006,  0.0,     // p2
+};
+static const double tik32_mupgf_m3l1_coeffs[6] = {
+    0.9498, -0.1214, // p1
+    0.0,    0.0208,  // p2
+    0.0,    0.0036,  // p3
+};
+static const double tik32_mupgf_m3l2_coeffs[9] = {
+    0.8707, 0.0342, -0.0389, // p1
+    0.0,    0.0597, 0.0006,  // p2
+    0.0,    0.0036, 0.0000,  // p3
+};
+static const double tik32_mupgf_m3l3_coeffs[12] = {
+    0.6959, 0.2423,  0.0120, -0.0274, // p1
+    0.0,    0.1767,  0.0006, -0.0011, // p2
+    0.0,    -0.0239, 0.0011, 0.0,     // p3
+};
+
 static const double tik32_mel1m1_coeffs[1] = {0.8272904343};
 
 static const double tik32_mel1m2_coeffs[2] = {0.7010636470, 0.1340496042};
