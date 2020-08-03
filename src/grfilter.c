@@ -915,8 +915,12 @@ void apply_sparse_laplacian(const double *input, double *output, int n,
                             const int nedges, const double mev,
                             const int *adjlist, const double *wlist) {
   int s = 0, t = 0;
-  for (int i = 0; i < n; i++)
-    output[i] = -mev * input[i];
+  if (mev == 0) {
+    memset(output, 0, n * sizeof(double));
+  } else {
+    for (int i = 0; i < n; i++)
+      output[i] = -mev * input[i];
+  }
   for (int i = 0; i < nedges; i++) {
     s = adjlist[i * 2];
     t = adjlist[i * 2 + 1];
@@ -953,6 +957,14 @@ void apply_sparse_operator(const double *input, double *output, int n,
   return;
 }
 
+void buffer_add(const double *input, double *output, int dim, int len) {
+  int ind=0;
+  for (int j=0; j<dim; j++)
+    for (int i=0; i<len; i++)
+      output[i] += input[ind++];
+  return;
+}
+
 void pgf(const double *input, double *output, int n, int order,
          const double *coeffs, const int nedges, const double mev,
          const int *adjlist, const double *wlist) {
@@ -961,8 +973,28 @@ void pgf(const double *input, double *output, int n, int order,
     output[i] = coeffs[order] * input[i];
   for (int i = order - 1; i >= 0; i--) {
     apply_sparse_laplacian(output, temp, n, nedges, mev, adjlist, wlist);
-    for (int j = 0; j < n; j++)
-      output[j] = temp[j] + coeffs[i] * input[j];
+    memcpy(output, temp, n * sizeof(double));
+    if (coeffs[i] != 0) {
+      for (int j = 0; j < n; j++)
+        output[j] += coeffs[i] * input[j];
+    }
+  }
+  return;
+}
+
+void pgf_s(const double *input, double *output, int n, int order,
+           const double *coeffs, const int nedges, const double mev,
+           const int *adjlist, const double *wlist) {
+  double temp[MAX_GRAPH_SIZE];
+  for (int i = 0; i < n; i++)
+    output[i] = coeffs[order] * input[i];
+  for (int i = order - 1; i >= 0; i--) {
+    apply_sparse_operator(output, temp, n, nedges, mev, adjlist, wlist);
+    memcpy(output, temp, n * sizeof(double));
+    if (coeffs[i] != 0) {
+      for (int j = 0; j < n; j++)
+        output[j] += coeffs[i] * input[j];
+    }
   }
   return;
 }
@@ -1002,13 +1034,14 @@ void mpgf(const double *input, double *output, int n, int ord, int m,
       for (int j = 0; j < pow; j++) {
         apply_sparse_operator(temp2, temp1, n, nedges[idx], 0, alists[idx],
                               wlists[idx]);
-        for (int l = 0; l < n; l++)
-          temp2[l] = temp1[l];
+        memcpy(temp2, temp1, n * sizeof(double));
       }
     }
     idxlist += ord;
-    for (int j = 0; j < n; j++)
-      output[j] += coeffs[k] * temp2[j];
+    if (coeffs[k] != 0) {
+      for (int j = 0; j < n; j++)
+        output[j] += coeffs[k] * temp2[j];
+    }
   }
   return;
 }
