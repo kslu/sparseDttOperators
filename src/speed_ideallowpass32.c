@@ -85,6 +85,8 @@ int main(int argc, char *argv[]) {
   clock_t t_temp = 0, t_exact = 0, t_mat = 0, t_pgf[10] = {0},
           t_ms[MSDEG * MSM] = {0}, t_me[MSDEG * MEM] = {0};
 
+  int ind = 0;
+
   for (int b = 0; b < n_batches; b++) {
     cur_batch_size = b < n_batches - 1 ? BATCH_SIZE : n_inputs - b * BATCH_SIZE;
     for (int i = 0; i < cur_batch_size; i++) {
@@ -134,23 +136,22 @@ int main(int argc, char *argv[]) {
     // MPGF--exhaustive search
     for (int l = 1; l <= MSDEG; l++) {
       for (int m = 1; m <= MEM; m++) {
-        if (!me_coeffs_ptr[(l - 1) * MEM + m - 1])
+        ind = (l - 1) * MEM + m - 1;
+        if (!me_coeffs_ptr[ind])
           continue;
         // parse the power list
         int idx_list[MSDEG * MEM] = {0}, pow_list[MSDEG * MEM] = {0};
-        get_mpgf_terms(me_powers_ptr[(l - 1) * MEM + m - 1], l, m, NOPS_LD32,
-                       idx_list, pow_list);
+        get_mpgf_terms(me_powers_ptr[ind], l, m, NOPS_LD32, idx_list, pow_list);
         t_temp = clock();
         for (int i = 0; i < cur_batch_size; i++)
-          mpgf(buffer_in[i], buffer_out_me[(l - 1) * MEM + m - 1][i], LEN, l, m,
-               me_coeffs_ptr[(l - 1) * MEM + m - 1], idx_list, pow_list,
-               nes_bd32, alists_bd32, wlists_bd32);
-        t_me[(l - 1) * MEM + m - 1] += clock() - t_temp;
+          mpgf(buffer_in[i], buffer_out_me[ind][i], LEN, l, m,
+               me_coeffs_ptr[ind], idx_list, pow_list, nes_bd32, alists_bd32,
+               wlists_bd32);
+        t_me[ind] += clock() - t_temp;
         for (int i = 0; i < cur_batch_size; i++) {
           for (int j = 0; j < LEN; j++) {
-            diff = buffer_out_exact[i][j] -
-                   buffer_out_me[(l - 1) * MEM + m - 1][i][j];
-            acc_error_me[(l - 1) * MEM + m - 1] += diff * diff;
+            diff = buffer_out_exact[i][j] - buffer_out_me[ind][i][j];
+            acc_error_me[ind] += diff * diff;
           }
         }
       }
@@ -161,19 +162,18 @@ int main(int argc, char *argv[]) {
       for (int m = 1; m <= MSM; m++) {
         // parse the power list
         int idx_list[MSDEG * MSM] = {0}, pow_list[MSDEG * MSM] = {0};
-        get_mpgf_terms(ms_powers_ptr[(l - 1) * MSM + m - 1], l, m, NOPS_LD32,
-                       idx_list, pow_list);
+        ind = (l - 1) * MSM + m - 1;
+        get_mpgf_terms(ms_powers_ptr[ind], l, m, NOPS_LD32, idx_list, pow_list);
         t_temp = clock();
         for (int i = 0; i < cur_batch_size; i++)
-          mpgf(buffer_in[i], buffer_out_ms[(l - 1) * MSM + m - 1][i], LEN, l, m,
-               ms_coeffs_ptr[(l - 1) * MSM + m - 1], idx_list, pow_list,
-               nes_bd32, alists_bd32, wlists_bd32);
-        t_ms[(l - 1) * MSM + m - 1] += clock() - t_temp;
+          mpgf(buffer_in[i], buffer_out_ms[ind][i], LEN, l, m,
+               ms_coeffs_ptr[ind], idx_list, pow_list, nes_bd32, alists_bd32,
+               wlists_bd32);
+        t_ms[ind] += clock() - t_temp;
         for (int i = 0; i < cur_batch_size; i++) {
           for (int j = 0; j < LEN; j++) {
-            diff = buffer_out_exact[i][j] -
-                   buffer_out_ms[(l - 1) * MSM + m - 1][i][j];
-            acc_error_ms[(l - 1) * MSM + m - 1] += diff * diff;
+            diff = buffer_out_exact[i][j] - buffer_out_ms[ind][i][j];
+            acc_error_ms[ind] += diff * diff;
           }
         }
       }
