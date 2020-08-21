@@ -4,10 +4,9 @@
 #include "matrices.h"
 
 #define LEN 64
-#define FIRDEG 10
-#define MSDEG 3
-#define MSM 8
-#define MEM 4
+#define PGFDEG 10
+#define MPGFDEG 3
+#define MAXM 8
 
 int main(int argc, char *argv[]) {
 
@@ -15,65 +14,36 @@ int main(int argc, char *argv[]) {
   double buffer_in[BATCH_SIZE][LEN];
   double buffer_out_exact[BATCH_SIZE][LEN];
   double buffer_out_mat[BATCH_SIZE][LEN];
-  double buffer_out_pgf[FIRDEG][BATCH_SIZE][LEN];
-  double buffer_out_ms[MSDEG * MSM][BATCH_SIZE][LEN];
-  double buffer_out_me[MSDEG * MEM][BATCH_SIZE][LEN];
+  double buffer_out_pgf[PGFDEG][BATCH_SIZE][LEN];
+  double buffer_out_mpgf[MPGFDEG * MAXM][BATCH_SIZE][LEN];
 
   double diff;
   double acc_error_mat = 0, acc_error_pgf[10] = {0},
-         acc_error_ms[MSDEG * MSM] = {0}, acc_error_me[MSDEG * MEM] = {0};
+         acc_error_mpgf[MPGFDEG * MAXM] = {0};
 
   const double *pgf_coeffs_ptr[10] = {tik8x8_pgf1_coeffs, tik8x8_pgf2_coeffs,
                                       tik8x8_pgf3_coeffs, tik8x8_pgf4_coeffs,
                                       tik8x8_pgf5_coeffs, tik8x8_pgf6_coeffs,
                                       tik8x8_pgf7_coeffs, tik8x8_pgf8_coeffs,
                                       tik8x8_pgf9_coeffs, tik8x8_pgf10_coeffs};
-  const double *me_coeffs_ptr[MSDEG * MEM] = {
-      tik8x8_mel1m1_coeffs,
-      tik8x8_mel1m2_coeffs,
-      NULL,
-      NULL,
-      tik8x8_mel2m1_coeffs,
-      NULL,
-      NULL,
-      NULL,
-      tik8x8_mel3m1_coeffs,
-      NULL,
-      NULL,
-      NULL,
-  };
-  const int *me_powers_ptr[MSDEG * MEM] = {
-      tik8x8_mel1m1_powers,
-      tik8x8_mel1m2_powers,
-      NULL,
-      NULL,
-      tik8x8_mel2m1_powers,
-      NULL,
-      NULL,
-      NULL,
-      tik8x8_mel3m1_powers,
-      NULL,
-      NULL,
-      NULL,
-  };
-  const double *ms_coeffs_ptr[MSDEG * MSM] = {
-      tik8x8_msl1m1_coeffs, tik8x8_msl1m2_coeffs, tik8x8_msl1m3_coeffs,
-      tik8x8_msl1m4_coeffs, tik8x8_msl1m5_coeffs, tik8x8_msl1m6_coeffs,
-      tik8x8_msl1m7_coeffs, tik8x8_msl1m8_coeffs, tik8x8_msl2m1_coeffs,
-      tik8x8_msl2m2_coeffs, tik8x8_msl2m3_coeffs, tik8x8_msl2m4_coeffs,
-      tik8x8_msl2m5_coeffs, tik8x8_msl2m6_coeffs, tik8x8_msl2m7_coeffs,
-      tik8x8_msl2m8_coeffs, tik8x8_msl3m1_coeffs, tik8x8_msl3m2_coeffs,
-      tik8x8_msl3m3_coeffs, tik8x8_msl3m4_coeffs, tik8x8_msl3m5_coeffs,
-      tik8x8_msl3m6_coeffs, tik8x8_msl3m7_coeffs, tik8x8_msl3m8_coeffs};
-  const int *ms_powers_ptr[MSDEG * MSM] = {
-      tik8x8_msl1m1_powers, tik8x8_msl1m2_powers, tik8x8_msl1m3_powers,
-      tik8x8_msl1m4_powers, tik8x8_msl1m5_powers, tik8x8_msl1m6_powers,
-      tik8x8_msl1m7_powers, tik8x8_msl1m8_powers, tik8x8_msl2m1_powers,
-      tik8x8_msl2m2_powers, tik8x8_msl2m3_powers, tik8x8_msl2m4_powers,
-      tik8x8_msl2m5_powers, tik8x8_msl2m6_powers, tik8x8_msl2m7_powers,
-      tik8x8_msl2m8_powers, tik8x8_msl3m1_powers, tik8x8_msl3m2_powers,
-      tik8x8_msl3m3_powers, tik8x8_msl3m4_powers, tik8x8_msl3m5_powers,
-      tik8x8_msl3m6_powers, tik8x8_msl3m7_powers, tik8x8_msl3m8_powers};
+  const double *mpgf_coeffs_ptr[MPGFDEG * MAXM] = {
+      tik8x8_mpgfl1m1_coeffs, tik8x8_mpgfl1m2_coeffs, tik8x8_mpgfl1m3_coeffs,
+      tik8x8_mpgfl1m4_coeffs, tik8x8_mpgfl1m5_coeffs, tik8x8_mpgfl1m6_coeffs,
+      tik8x8_mpgfl1m7_coeffs, tik8x8_mpgfl1m8_coeffs, tik8x8_mpgfl2m1_coeffs,
+      tik8x8_mpgfl2m2_coeffs, tik8x8_mpgfl2m3_coeffs, tik8x8_mpgfl2m4_coeffs,
+      tik8x8_mpgfl2m5_coeffs, tik8x8_mpgfl2m6_coeffs, tik8x8_mpgfl2m7_coeffs,
+      tik8x8_mpgfl2m8_coeffs, tik8x8_mpgfl3m1_coeffs, tik8x8_mpgfl3m2_coeffs,
+      tik8x8_mpgfl3m3_coeffs, tik8x8_mpgfl3m4_coeffs, tik8x8_mpgfl3m5_coeffs,
+      tik8x8_mpgfl3m6_coeffs, tik8x8_mpgfl3m7_coeffs, tik8x8_mpgfl3m8_coeffs};
+  const int *mpgf_powers_ptr[MPGFDEG * MAXM] = {
+      tik8x8_mpgfl1m1_powers, tik8x8_mpgfl1m2_powers, tik8x8_mpgfl1m3_powers,
+      tik8x8_mpgfl1m4_powers, tik8x8_mpgfl1m5_powers, tik8x8_mpgfl1m6_powers,
+      tik8x8_mpgfl1m7_powers, tik8x8_mpgfl1m8_powers, tik8x8_mpgfl2m1_powers,
+      tik8x8_mpgfl2m2_powers, tik8x8_mpgfl2m3_powers, tik8x8_mpgfl2m4_powers,
+      tik8x8_mpgfl2m5_powers, tik8x8_mpgfl2m6_powers, tik8x8_mpgfl2m7_powers,
+      tik8x8_mpgfl2m8_powers, tik8x8_mpgfl3m1_powers, tik8x8_mpgfl3m2_powers,
+      tik8x8_mpgfl3m3_powers, tik8x8_mpgfl3m4_powers, tik8x8_mpgfl3m5_powers,
+      tik8x8_mpgfl3m6_powers, tik8x8_mpgfl3m7_powers, tik8x8_mpgfl3m8_powers};
 
   // read inputs
   FILE *fp_in = fopen(argv[1], "r");
@@ -84,7 +54,7 @@ int main(int argc, char *argv[]) {
   int n_batches = ceil((double)n_inputs / (double)BATCH_SIZE);
   int cur_batch_size = 0;
   clock_t t_temp = 0, t_exact = 0, t_mat = 0, t_pgf[10] = {0},
-          t_ms[MSDEG * MSM] = {0}, t_me[MSDEG * MEM] = {0};
+          t_mpgf[MPGFDEG * MAXM] = {0};
 
   int ind = 0;
 
@@ -97,9 +67,8 @@ int main(int argc, char *argv[]) {
 
     memset(buffer_out_exact, 0, BATCH_SIZE * LEN * sizeof(double));
     memset(buffer_out_mat, 0, BATCH_SIZE * LEN * sizeof(double));
-    memset(buffer_out_pgf, 0, FIRDEG * BATCH_SIZE * LEN * sizeof(double));
-    memset(buffer_out_ms, 0, MSDEG * MSM * BATCH_SIZE * LEN * sizeof(double));
-    memset(buffer_out_me, 0, MSDEG * MEM * BATCH_SIZE * LEN * sizeof(double));
+    memset(buffer_out_pgf, 0, PGFDEG * BATCH_SIZE * LEN * sizeof(double));
+    memset(buffer_out_mpgf, 0, MPGFDEG * MAXM * BATCH_SIZE * LEN * sizeof(double));
 
     // Exact filter
     t_temp = clock();
@@ -120,7 +89,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Polynomial graph filter (PGF)
-    for (int ord = 1; ord <= FIRDEG; ord++) {
+    for (int ord = 1; ord <= PGFDEG; ord++) {
       t_temp = clock();
       for (int i = 0; i < cur_batch_size; i++)
         pgf(buffer_in[i], buffer_out_pgf[ord - 1][i], LEN, ord,
@@ -134,49 +103,24 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    // MPGF--exhaustive search
-    for (int l = 1; l <= MSDEG; l++) {
-      for (int m = 1; m <= MEM; m++) {
-        ind = (l - 1) * MEM + m - 1;
-        if (!me_coeffs_ptr[ind])
-          continue;
-        // parse the power list
-        int idx_list[MSDEG * MEM] = {0}, pow_list[MSDEG * MEM] = {0};
-        get_mpgf_terms(me_powers_ptr[ind], l, m, NOPS_LDD8X8, idx_list,
-                       pow_list);
-        t_temp = clock();
-        for (int i = 0; i < cur_batch_size; i++)
-          mpgf(buffer_in[i], buffer_out_me[ind][i], LEN, l, m,
-               me_coeffs_ptr[ind], idx_list, pow_list, nes_bdd8x8,
-               alists_bdd8x8, wlists_bdd8x8);
-        t_me[ind] += clock() - t_temp;
-        for (int i = 0; i < cur_batch_size; i++) {
-          for (int j = 0; j < LEN; j++) {
-            diff = buffer_out_exact[i][j] - buffer_out_me[ind][i][j];
-            acc_error_me[ind] += diff * diff;
-          }
-        }
-      }
-    }
-
     // MPGF--OMP
-    for (int l = 1; l <= MSDEG; l++) {
-      for (int m = 1; m <= MSM; m++) {
+    for (int l = 1; l <= MPGFDEG; l++) {
+      for (int m = 1; m <= MAXM; m++) {
         // parse the power list
-        int idx_list[MSDEG * MSM] = {0}, pow_list[MSDEG * MSM] = {0};
-        ind = (l - 1) * MSM + m - 1;
-        get_mpgf_terms(ms_powers_ptr[ind], l, m, NOPS_LDD8X8, idx_list,
+        int idx_list[MPGFDEG * MAXM] = {0}, pow_list[MPGFDEG * MAXM] = {0};
+        ind = (l - 1) * MAXM + m - 1;
+        get_mpgf_terms(mpgf_powers_ptr[ind], l, m, NOPS_LDD8X8, idx_list,
                        pow_list);
         t_temp = clock();
         for (int i = 0; i < cur_batch_size; i++)
-          mpgf(buffer_in[i], buffer_out_ms[ind][i], LEN, l, m,
-               ms_coeffs_ptr[ind], idx_list, pow_list, nes_bdd8x8,
+          mpgf(buffer_in[i], buffer_out_mpgf[ind][i], LEN, l, m,
+               mpgf_coeffs_ptr[ind], idx_list, pow_list, nes_bdd8x8,
                alists_bdd8x8, wlists_bdd8x8);
-        t_ms[ind] += clock() - t_temp;
+        t_mpgf[ind] += clock() - t_temp;
         for (int i = 0; i < cur_batch_size; i++) {
           for (int j = 0; j < LEN; j++) {
-            diff = buffer_out_exact[i][j] - buffer_out_ms[ind][i][j];
-            acc_error_ms[ind] += diff * diff;
+            diff = buffer_out_exact[i][j] - buffer_out_mpgf[ind][i][j];
+            acc_error_mpgf[ind] += diff * diff;
           }
         }
       }
@@ -193,21 +137,21 @@ int main(int argc, char *argv[]) {
       for (int j = 0; j < LEN; j++)
         fprintf(fp_out, "%.8lf ", buffer_out_exact[i][j]);
       fprintf(fp_out, "\n");
-      fprintf(fp_out, "FIR order 1: ");
+      fprintf(fp_out, "PGF order 1: ");
       for (int j = 0; j < LEN; j++)
         fprintf(fp_out, "%.8lf ", buffer_out_pgf[0][i][j]);
       fprintf(fp_out, "\n");
-      fprintf(fp_out, "FIR order 2: ");
+      fprintf(fp_out, "PGF order 2: ");
       for (int j = 0; j < LEN; j++)
         fprintf(fp_out, "%.8lf ", buffer_out_pgf[1][i][j]);
       fprintf(fp_out, "\n");
-      fprintf(fp_out, "FIR order 3: ");
+      fprintf(fp_out, "PGF order 3: ");
       for (int j = 0; j < LEN; j++)
         fprintf(fp_out, "%.8lf ", buffer_out_pgf[2][i][j]);
       fprintf(fp_out, "\n");
-      fprintf(fp_out, "Multishifts order 3 nterms 8: ");
+      fprintf(fp_out, "MPGF order 3 nterms 8: ");
       for (int j = 0; j < LEN; j++)
-        fprintf(fp_out, "%.8lf ", buffer_out_MSM3[0][i][j]);
+        fprintf(fp_out, "%.8lf ", buffer_out_mpgf[MAXM*2][i][j]);
       fprintf(fp_out, "\n");
     }
 #endif
@@ -220,31 +164,19 @@ int main(int argc, char *argv[]) {
   fprintf(fp_out, "Exact filter:    %.8lf\n", time_exact);
   fprintf(fp_out, "Matrix filter:    %.8lf", time_mat);
   fprintf(fp_out, " (error = %.8lf)\n", acc_error_mat / ((double)n_inputs));
-  for (int ord = 1; ord <= FIRDEG; ord++) {
+  for (int ord = 1; ord <= PGFDEG; ord++) {
     double time_pgf = ((double)t_pgf[ord - 1]) / CLOCKS_PER_SEC;
-    fprintf(fp_out, "FIR filter (order = %d):    %.8lf", ord, time_pgf);
+    fprintf(fp_out, "PGF (order = %d):    %.8lf", ord, time_pgf);
     fprintf(fp_out, " (error = %.8lf)\n",
             acc_error_pgf[ord - 1] / ((double)n_inputs));
   }
-  for (int l = 1; l <= MSDEG; l++) {
-    for (int m = 1; m <= MEM; m++) {
-      if (!me_coeffs_ptr[(l - 1) * MEM + m - 1])
-        continue;
-      double time_me = ((double)t_me[(l - 1) * MEM + m - 1]) / CLOCKS_PER_SEC;
-      fprintf(fp_out,
-              "Multishift filter, exhaustive (order = %d, m = %d):    %.8lf", l,
-              m, time_me);
+  for (int l = 1; l <= MPGFDEG; l++) {
+    for (int m = 1; m <= MAXM; m++) {
+      double time_mpgf = ((double)t_mpgf[(l - 1) * MAXM + m - 1]) / CLOCKS_PER_SEC;
+      fprintf(fp_out, "MPGF, OMP (order = %d, m = %d):    %.8lf",
+              l, m, time_mpgf);
       fprintf(fp_out, " (error = %.8lf)\n",
-              acc_error_me[(l - 1) * MSM + m - 1] / ((double)n_inputs));
-    }
-  }
-  for (int l = 1; l <= MSDEG; l++) {
-    for (int m = 1; m <= MSM; m++) {
-      double time_ms = ((double)t_ms[(l - 1) * MSM + m - 1]) / CLOCKS_PER_SEC;
-      fprintf(fp_out, "Multishift filter, OMP (order = %d, m = %d):    %.8lf",
-              l, m, time_ms);
-      fprintf(fp_out, " (error = %.8lf)\n",
-              acc_error_ms[(l - 1) * MSM + m - 1] / ((double)n_inputs));
+              acc_error_mpgf[(l - 1) * MAXM + m - 1] / ((double)n_inputs));
     }
   }
 
