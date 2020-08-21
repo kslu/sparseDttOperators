@@ -6,7 +6,7 @@
 #define LEN 32
 #define FIRDEG 10
 #define MSDEG 3
-#define MPDEG 3
+#define MPDEG 6
 #define MAXM 3
 #define MSM 8
 #define MEM 4
@@ -33,10 +33,13 @@ int main(int argc, char *argv[]) {
                                       tik32_pgf5_coeffs, tik32_pgf6_coeffs,
                                       tik32_pgf7_coeffs, tik32_pgf8_coeffs,
                                       tik32_pgf9_coeffs, tik32_pgf10_coeffs};
-  const double *tik32_mupgf_ptr[(MPDEG - 1) * MAXM] = {
+  const double *mupgf_coeffs_ptr[(MPDEG - 1) * MAXM] = {
       tik32_mupgf_m2l1_coeffs, tik32_mupgf_m2l2_coeffs,
-      tik32_mupgf_m2l3_coeffs, tik32_mupgf_m3l1_coeffs,
-      tik32_mupgf_m3l2_coeffs, tik32_mupgf_m3l3_coeffs};
+      tik32_mupgf_m2l3_coeffs, tik32_mupgf_m2l4_coeffs,
+      tik32_mupgf_m2l5_coeffs, tik32_mupgf_m2l6_coeffs,
+      tik32_mupgf_m3l1_coeffs, tik32_mupgf_m3l2_coeffs,
+      tik32_mupgf_m3l3_coeffs, tik32_mupgf_m3l4_coeffs,
+      tik32_mupgf_m3l5_coeffs, tik32_mupgf_m3l6_coeffs};
   const double *me_coeffs_ptr[MSDEG * MEM] = {
       tik32_mel1m1_coeffs,
       tik32_mel1m2_coeffs,
@@ -152,15 +155,15 @@ int main(int argc, char *argv[]) {
         ind = (m - 2) * MPDEG + l - 1;
         t_temp = clock();
         for (int i = 0; i < cur_batch_size; i++) {
-          pgf(buffer_in[i], buffer_temp[0], LEN, l, &tik32_mupgf_ptr[ind][0],
+          pgf(buffer_in[i], buffer_temp[0], LEN, l, &mupgf_coeffs_ptr[ind][0],
               NE_LD32, 0, Ld32_a, Ld32_w);
           if (m >= 2)
             pgf_s(buffer_in[i], buffer_temp[1], LEN, l,
-                  &tik32_mupgf_ptr[ind][l + 1], NE_BD32_3, 0, Bd32_3_a,
+                  &mupgf_coeffs_ptr[ind][l + 1], NE_BD32_3, 0, Bd32_3_a,
                   Bd32_3_w);
           if (m >= 3)
             pgf_s(buffer_in[i], buffer_temp[2], LEN, l,
-                  &tik32_mupgf_ptr[ind][2 * l + 2], NE_BD32_4, 0, Bd32_4_a,
+                  &mupgf_coeffs_ptr[ind][2 * l + 2], NE_BD32_4, 0, Bd32_4_a,
                   Bd32_4_w);
           buffer_add(buffer_temp, buffer_out_mupgf[ind][i], m, LEN);
 #if 0
