@@ -109,10 +109,10 @@ test_dct: grfilter.o test_dct.o
 test_dct.o: test/test_dct.c
 	$(CC) -c $<
 
-test_arma_cg: grfilter.o test_arma_cg.o
+test_arma: grfilter.o test_arma.o
 	$(CC) -o $@ $? -lm
 
-test_arma_cg.o: test/test_arma_cg.c
+test_arma.o: test/test_arma.c
 	$(CC) -c $<
 
 test_cheby: grfilter.o test_cheby.o
@@ -122,4 +122,4 @@ test_cheby.o: test/test_cheby.c
 	$(CC) -c $<
 
 clean:
-		rm -rf *.o speed_tikhonov4x4 speed_tikhonov8x8 speed_tikhonov32 speed_tikhonov128 speed_ideallowpass4x4 speed_ideallowpass8x8 speed_ideallowpass32 speed_ideallowpass128 speed_exp4x4 speed_exp8x8 speed_exp32 speed_exp128 speed_diffusion4x4 speed_diffusion8x8 speed_diffusion32 speed_diffusion128 test_dct
+		rm -rf *.o speed_tikhonov4x4 speed_tikhonov8x8 speed_tikhonov32 speed_tikhonov128 speed_ideallowpass4x4 speed_ideallowpass8x8 speed_ideallowpass32 speed_ideallowpass128 speed_exp4x4 speed_exp8x8 speed_exp32 speed_exp128 speed_diffusion4x4 speed_diffusion8x8 speed_diffusion32 speed_diffusion128 test_dct test_cheby test_arma

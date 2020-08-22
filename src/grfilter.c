@@ -1037,9 +1037,44 @@ void chebyshev_gf(const double *input, double *output, int n, int order,
 }
 
 // ARMA graph filter, conjugate gradient (CG) implementation
-void arma_gf_cg(const double *input, double *output, int n, int tmax, int bord,
-                const double *b, int aord, const double *a, const int nedges,
-                const double mev, const int *adjlist, const double *wlist) {
+void armagf_cg(const double *input, double *output, int n, int tmax, int bord,
+               const double *b, int aord, const double *a, const int nedges,
+               const int *adjlist, const double *wlist) {
+  double lp[MAX_GRAPH_SIZE], ay[MAX_GRAPH_SIZE], r[MAX_GRAPH_SIZE],
+      p[MAX_GRAPH_SIZE];
+  double rsold = 0, dot_temp = 0, alpha = 0;
+  pgf(input, output, n, bord, b, nedges, 0, adjlist, wlist); // y = b(L) * x
+  pgf(output, ay, n, aord, a, nedges, 0, adjlist, wlist);    // ay = a(L) * y
+
+  for (int i = 0; i < n; i++) {
+    r[i] = output[i] - ay[i]; // r = b(L) * x - a(L) * y
+    rsold += r[i] * r[i];
+  }
+  memcpy(p, r, n * sizeof(double));
+
+  for (int k = 0; k < tmax; k++) {
+    pgf(p, lp, n, aord, a, nedges, 0, adjlist, wlist); // lp = a(L) * p
+
+    dot_temp = 0;
+    for (int i = 0; i < n; i++)
+      dot_temp += p[i] * lp[i];
+    alpha = rsold / dot_temp;
+
+    dot_temp = 0;
+    for (int i = 0; i < n; i++) {
+      output[i] += alpha * p[i];
+      r[i] -= alpha * lp[i];
+      dot_temp += r[i] * r[i];
+    }
+
+    if (dot_temp <= 1e-12)
+      break;
+
+    for (int i = 0; i < n; i++)
+      p[i] = r[i] + (dot_temp / rsold) * p[i];
+    rsold = dot_temp;
+  }
+
   return;
 }
 

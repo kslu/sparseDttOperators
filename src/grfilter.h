@@ -294,9 +294,9 @@ void pgf_s(const double *input, double *output, int n, int order,
 void chebyshev_gf(const double *input, double *output, int n, int order,
                   const double *coeffs, const int nedges, const double mev,
                   const int *adjlist, const double *wlist);
-void arma_gf_cg(const double *input, double *output, int n, int tmax, int bord,
-                const double *b, int aord, const double *a, const int nedges,
-                const double mev, const int *adjlist, const double *wlist);
+void armagf_cg(const double *input, double *output, int n, int tmax, int bord,
+               const double *b, int aord, const double *a, const int nedges,
+               const int *adjlist, const double *wlist);
 void get_mpgf_terms(const int *powers, int ord, int m, int nops, int *idx_list,
                     int *pow_list);
 void mpgf(const double *input, double *output, int n, int ord, int m,
