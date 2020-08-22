@@ -911,6 +911,7 @@ void exact_filter_32(const double *input, double *output, const double *h) {
   return;
 }
 
+// y = (L - mev * I) * x
 void apply_sparse_laplacian(const double *input, double *output, int n,
                             const int nedges, const double mev,
                             const int *adjlist, const double *wlist) {
@@ -965,6 +966,7 @@ void buffer_add(const double *input, double *output, int dim, int len) {
   return;
 }
 
+// Polynomial graph filter (polynomial of L)
 void pgf(const double *input, double *output, int n, int order,
          const double *coeffs, const int nedges, const double mev,
          const int *adjlist, const double *wlist) {
@@ -982,6 +984,7 @@ void pgf(const double *input, double *output, int n, int order,
   return;
 }
 
+// Polynomial graph filter (polynomial of S)
 void pgf_s(const double *input, double *output, int n, int order,
            const double *coeffs, const int nedges, const double mev,
            const int *adjlist, const double *wlist) {
@@ -996,6 +999,47 @@ void pgf_s(const double *input, double *output, int n, int order,
         output[j] += coeffs[i] * input[j];
     }
   }
+  return;
+}
+
+// Chebyshev graph filter
+void chebyshev_gf(const double *input, double *output, int n, int order,
+                  const double *coeffs, const int nedges, const double mev,
+                  const int *adjlist, const double *wlist) {
+  // twf_new: T_k(L) f
+  // twf_cur: T_{k-1}(L) f
+  // twf_old: T_{k-2}(L) f
+  double twf_old[MAX_GRAPH_SIZE], twf_cur[MAX_GRAPH_SIZE],
+      twf_new[MAX_GRAPH_SIZE];
+  double inv_mev = 1.0 / mev;
+  memcpy(twf_old, input, n * sizeof(double));
+  apply_sparse_laplacian(input, twf_cur, n, nedges, mev, adjlist, wlist);
+
+  for (int i = 0; i < n; i++) {
+    twf_cur[i] = inv_mev * twf_cur[i];
+    output[i] = 0.5 * coeffs[0] * twf_old[i] + coeffs[1] * twf_cur[i];
+  }
+
+  for (int k = 2; k <= order - 1; k++) {
+    // twf_new is used as a buffer here
+    apply_sparse_laplacian(twf_cur, twf_new, n, nedges, mev, adjlist, wlist);
+    for (int i = 0; i < n; i++) {
+      twf_new[i] = 2 * inv_mev * twf_new[i] - twf_old[i];
+      output[i] += coeffs[k] * twf_new[i];
+    }
+    if (k < order - 1) {
+      memcpy(twf_old, twf_cur, n * sizeof(double));
+      memcpy(twf_cur, twf_new, n * sizeof(double));
+    }
+  }
+
+  return;
+}
+
+// ARMA graph filter, conjugate gradient (CG) implementation
+void arma_gf_cg(const double *input, double *output, int n, int tmax, int bord,
+                const double *b, int aord, const double *a, const int nedges,
+                const double mev, const int *adjlist, const double *wlist) {
   return;
 }
 
@@ -1016,6 +1060,7 @@ void get_mpgf_terms(const int *powers, int ord, int m, int nops, int *idx_list,
   return;
 }
 
+// Multivariate polynomial graph filter
 void mpgf(const double *input, double *output, int n, int ord, int m,
           const double *coeffs, const int *idx_list, const int *pow_list,
           const int *nedges, const int *alists[], const double *wlists[]) {
