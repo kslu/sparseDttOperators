@@ -15,17 +15,23 @@ int main(int argc, char *argv[]) {
   double buffer_out_exact[BATCH_SIZE][LEN];
   double buffer_out_mat[BATCH_SIZE][LEN];
   double buffer_out_pgf[PGFDEG][BATCH_SIZE][LEN];
+  double buffer_out_cpgf[PGFDEG][BATCH_SIZE][LEN];
   double buffer_out_mpgf[MPGFDEG * MAXM][BATCH_SIZE][LEN];
 
   double diff;
-  double acc_error_mat = 0, acc_error_pgf[10] = {0},
-         acc_error_mpgf[MPGFDEG * MAXM] = {0};
+  double acc_error_mat = 0, acc_error_pgf[PGFDEG] = {0},
+         acc_error_cpgf[PGFDEG] = {0}, acc_error_mpgf[MPGFDEG * MAXM] = {0};
 
-  const double *pgf_coeffs_ptr[10] = {
+  const double *pgf_coeffs_ptr[PGFDEG] = {
       diff4x4_pgf1_coeffs, diff4x4_pgf2_coeffs, diff4x4_pgf3_coeffs,
       diff4x4_pgf4_coeffs, diff4x4_pgf5_coeffs, diff4x4_pgf6_coeffs,
       diff4x4_pgf7_coeffs, diff4x4_pgf8_coeffs, diff4x4_pgf9_coeffs,
       diff4x4_pgf10_coeffs};
+  const double *cpgf_coeffs_ptr[PGFDEG] = {
+      diff4x4_cpgf1_coeffs, diff4x4_cpgf2_coeffs, diff4x4_cpgf3_coeffs,
+      diff4x4_cpgf4_coeffs, diff4x4_cpgf5_coeffs, diff4x4_cpgf6_coeffs,
+      diff4x4_cpgf7_coeffs, diff4x4_cpgf8_coeffs, diff4x4_cpgf9_coeffs,
+      diff4x4_cpgf10_coeffs};
   const double *mpgf_coeffs_ptr[MPGFDEG * MAXM] = {
       diff4x4_mpgfl1m1_coeffs, diff4x4_mpgfl1m2_coeffs, diff4x4_mpgfl1m3_coeffs,
       diff4x4_mpgfl1m4_coeffs, diff4x4_mpgfl1m5_coeffs, diff4x4_mpgfl1m6_coeffs,
@@ -53,8 +59,8 @@ int main(int argc, char *argv[]) {
 
   int n_batches = ceil((double)n_inputs / (double)BATCH_SIZE);
   int cur_batch_size = 0;
-  clock_t t_temp = 0, t_exact = 0, t_mat = 0, t_pgf[10] = {0},
-          t_mpgf[MPGFDEG * MAXM] = {0};
+  clock_t t_temp = 0, t_exact = 0, t_mat = 0, t_pgf[PGFDEG] = {0},
+          t_cpgf[PGFDEG] = {0}, t_mpgf[MPGFDEG * MAXM] = {0};
 
   int ind = 0;
 
@@ -68,6 +74,7 @@ int main(int argc, char *argv[]) {
     memset(buffer_out_exact, 0, BATCH_SIZE * LEN * sizeof(double));
     memset(buffer_out_mat, 0, BATCH_SIZE * LEN * sizeof(double));
     memset(buffer_out_pgf, 0, PGFDEG * BATCH_SIZE * LEN * sizeof(double));
+    memset(buffer_out_cpgf, 0, PGFDEG * BATCH_SIZE * LEN * sizeof(double));
     memset(buffer_out_mpgf, 0, MPGFDEG * MAXM * BATCH_SIZE * LEN * sizeof(double));
 
     // Exact filter
@@ -99,6 +106,22 @@ int main(int argc, char *argv[]) {
         for (int j = 0; j < LEN; j++) {
           diff = buffer_out_exact[i][j] - buffer_out_pgf[ord - 1][i][j];
           acc_error_pgf[ord - 1] += diff * diff;
+        }
+      }
+    }
+
+    // Chebyshev polynomial graph filter (CPGF)
+    for (int ord = 1; ord <= PGFDEG; ord++) {
+      t_temp = clock();
+      for (int i = 0; i < cur_batch_size; i++)
+        chebyshev_gf(buffer_in[i], buffer_out_cpgf[ord - 1][i], LEN, ord,
+                     cpgf_coeffs_ptr[ord - 1], NE_LDD4X4, MEV_LDD4X4, Ldd4x4_a,
+                     Ldd4x4_w);
+      t_cpgf[ord - 1] += clock() - t_temp;
+      for (int i = 0; i < cur_batch_size; i++) {
+        for (int j = 0; j < LEN; j++) {
+          diff = buffer_out_exact[i][j] - buffer_out_cpgf[ord - 1][i][j];
+          acc_error_cpgf[ord - 1] += diff * diff;
         }
       }
     }
@@ -169,6 +192,12 @@ int main(int argc, char *argv[]) {
     fprintf(fp_out, "PGF (order = %d):    %.8lf", ord, time_pgf);
     fprintf(fp_out, " (error = %.8lf)\n",
             acc_error_pgf[ord - 1] / ((double)n_inputs));
+  }
+  for (int ord = 1; ord <= PGFDEG; ord++) {
+    double time_cpgf = ((double)t_cpgf[ord - 1]) / CLOCKS_PER_SEC;
+    fprintf(fp_out, "CPGF (order = %d):    %.8lf", ord, time_cpgf);
+    fprintf(fp_out, " (error = %.8lf)\n",
+            acc_error_cpgf[ord - 1] / ((double)n_inputs));
   }
   for (int l = 1; l <= MPGFDEG; l++) {
     for (int m = 1; m <= MAXM; m++) {
