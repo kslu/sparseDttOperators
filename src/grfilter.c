@@ -967,6 +967,7 @@ void buffer_add(const double *input, double *output, int dim, int len) {
 }
 
 // Polynomial graph filter (polynomial of L)
+// y = (c[0] + c[1] * L + c[2] * L^2 + ... + c[K-1] * L^{K-1}) * x
 void pgf(const double *input, double *output, int n, int order,
          const double *coeffs, const int nedges, const double mev,
          const int *adjlist, const double *wlist) {
@@ -985,6 +986,7 @@ void pgf(const double *input, double *output, int n, int order,
 }
 
 // Polynomial graph filter (polynomial of S)
+// y = (c[0] + c[1] * S + c[2] * S^2 + ... + c[K-1] * S^{K-1}) * x
 void pgf_s(const double *input, double *output, int n, int order,
            const double *coeffs, const int nedges, const double mev,
            const int *adjlist, const double *wlist) {
@@ -1037,14 +1039,20 @@ void chebyshev_gf(const double *input, double *output, int n, int order,
 }
 
 // ARMA graph filter, conjugate gradient (CG) implementation
-void armagf_cg(const double *input, double *output, int n, int tmax, int bord,
-               const double *b, int aord, const double *a, const int nedges,
+// y = Hx, where the frequency response of H has the form
+//         b[0] + b[1]*z + ... + b[kb-1]*z^{kb-1}
+// h(z) = ----------------------------------------
+//         a[0] + a[1]*z + ... + a[ka-1]*z^{ka-1}
+// with coefficients a[i], b[i] chosen to approximate the desired frequency
+// response
+void armagf_cg(const double *input, double *output, int n, int tmax, int kb,
+               const double *b, int ka, const double *a, const int nedges,
                const int *adjlist, const double *wlist) {
   double lp[MAX_GRAPH_SIZE], ay[MAX_GRAPH_SIZE], r[MAX_GRAPH_SIZE],
       p[MAX_GRAPH_SIZE];
   double rsold = 0, dot_temp = 0, alpha = 0;
-  pgf(input, output, n, bord, b, nedges, 0, adjlist, wlist); // y = b(L) * x
-  pgf(output, ay, n, aord, a, nedges, 0, adjlist, wlist);    // ay = a(L) * y
+  pgf(input, output, n, kb, b, nedges, 0, adjlist, wlist); // y = b(L) * x
+  pgf(output, ay, n, ka, a, nedges, 0, adjlist, wlist);    // ay = a(L) * y
 
   for (int i = 0; i < n; i++) {
     r[i] = output[i] - ay[i]; // r = b(L) * x - a(L) * y
@@ -1053,7 +1061,7 @@ void armagf_cg(const double *input, double *output, int n, int tmax, int bord,
   memcpy(p, r, n * sizeof(double));
 
   for (int k = 0; k < tmax; k++) {
-    pgf(p, lp, n, aord, a, nedges, 0, adjlist, wlist); // lp = a(L) * p
+    pgf(p, lp, n, ka, a, nedges, 0, adjlist, wlist); // lp = a(L) * p
 
     dot_temp = 0;
     for (int i = 0; i < n; i++)
