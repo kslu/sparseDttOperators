@@ -1,6 +1,7 @@
-#include "../src/grfilter.h"
-
-#define LEN 16
+#include "../src/dct.h"
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char *argv[]) {
 
@@ -107,6 +108,24 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "%f, ", recon64[i]);
   fprintf(stderr, "]\n");
 
+  // test dct16
+  fprintf(stderr, "=== dct16 ===\nInput: [");
+  for (int i = 0; i < 16; i++)
+    fprintf(stderr, "%f, ", input16[i]);
+  fprintf(stderr, "]\n");
+  dct16(input16, output16);
+  // MATLAB output: [2.2667, -0.1220, 0.0213, 0.4212, -0.0257, 0.1803, 0.4485,
+  // -0.0926, -0.4887, 0.1118, 0.3500, 0.4248, -0.2822, 0.1984, -0.0368, 0.1041]
+  fprintf(stderr, "Output: [");
+  for (int i = 0; i < 16; i++)
+    fprintf(stderr, "%f, ", output16[i]);
+  fprintf(stderr, "]\n");
+  idct16(output16, recon16);
+  fprintf(stderr, "Recon: [");
+  for (int i = 0; i < 16; i++)
+    fprintf(stderr, "%f, ", recon16[i]);
+  fprintf(stderr, "]\n");
+
   // test dct32
   fprintf(stderr, "=== dct32 ===\nInput: [");
   for (int i = 0; i < 32; i++)
@@ -127,5 +146,28 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "%f, ", recon32[i]);
   fprintf(stderr, "]\n");
 
+  // test dct64
+  fprintf(stderr, "=== dct64 ===\nInput: [");
+  for (int i = 0; i < 64; i++)
+    fprintf(stderr, "%f, ", input64[i]);
+  fprintf(stderr, "]\n");
+  dct64(input64, output64);
+  // MATLAB output: [4.0949, -0.1852, -0.2095, -0.0169, -0.0436, -0.0219,
+  // 0.2405, 0.1082, 0.0609, -0.3376, -0.3293, -0.5173, 0.3138, -0.0981,
+  // -0.0471, -0.3616, -0.2678, -0.3461, 0.0812, -0.1475, -0.3286, 0.2438,
+  // -0.1482, -0.0899, 0.1451, 0.0945, -0.3363, -0.2030, -0.0397, -0.4211,
+  // -0.3173, -0.1077, -0.2260, 0.2275, 0.3446, 0.3976, 0.2556, 0.4249, 0.1891,
+  // 0.0383, -0.2449, 0.1499, -0.2790, 0.3917, -0.3262, 0.0543, 0.2659, -0.0393,
+  // -0.3567, -0.2480, 0.1084, -0.0314, -0.0864, 0.2129, 0.5588, 0.3370,
+  // -0.0944, 0.6328, -0.1232, -0.0954, -0.0124, -0.0200, 0.9413, 0.1462]
+  fprintf(stderr, "Output: [");
+  for (int i = 0; i < 64; i++)
+    fprintf(stderr, "%f, ", output64[i]);
+  fprintf(stderr, "]\n");
+  idct64(output64, recon64);
+  fprintf(stderr, "Recon: [");
+  for (int i = 0; i < 64; i++)
+    fprintf(stderr, "%f, ", recon64[i]);
+  fprintf(stderr, "]\n");
   return 0;
 }
