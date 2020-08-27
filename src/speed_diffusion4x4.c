@@ -5,7 +5,7 @@
 
 #define LEN 16
 #define PGFDEG 10
-#define MPGFDEG 3
+#define MPGFDEG 2
 #define MAXM 8
 #define ABDEGS 3
 #define NITS 6
@@ -45,21 +45,17 @@ int main(int argc, char *argv[]) {
       diff4x4_mpgfl1m7_coeffs, diff4x4_mpgfl1m8_coeffs, diff4x4_mpgfl2m1_coeffs,
       diff4x4_mpgfl2m2_coeffs, diff4x4_mpgfl2m3_coeffs, diff4x4_mpgfl2m4_coeffs,
       diff4x4_mpgfl2m5_coeffs, diff4x4_mpgfl2m6_coeffs, diff4x4_mpgfl2m7_coeffs,
-      diff4x4_mpgfl2m8_coeffs, diff4x4_mpgfl3m1_coeffs, diff4x4_mpgfl3m2_coeffs,
-      diff4x4_mpgfl3m3_coeffs, diff4x4_mpgfl3m4_coeffs, diff4x4_mpgfl3m5_coeffs,
-      diff4x4_mpgfl3m6_coeffs, diff4x4_mpgfl3m7_coeffs, diff4x4_mpgfl3m8_coeffs};
+      diff4x4_mpgfl2m8_coeffs};
   const int *mpgf_powers_ptr[MPGFDEG * MAXM] = {
       diff4x4_mpgfl1m1_powers, diff4x4_mpgfl1m2_powers, diff4x4_mpgfl1m3_powers,
       diff4x4_mpgfl1m4_powers, diff4x4_mpgfl1m5_powers, diff4x4_mpgfl1m6_powers,
       diff4x4_mpgfl1m7_powers, diff4x4_mpgfl1m8_powers, diff4x4_mpgfl2m1_powers,
       diff4x4_mpgfl2m2_powers, diff4x4_mpgfl2m3_powers, diff4x4_mpgfl2m4_powers,
       diff4x4_mpgfl2m5_powers, diff4x4_mpgfl2m6_powers, diff4x4_mpgfl2m7_powers,
-      diff4x4_mpgfl2m8_powers, diff4x4_mpgfl3m1_powers, diff4x4_mpgfl3m2_powers,
-      diff4x4_mpgfl3m3_powers, diff4x4_mpgfl3m4_powers, diff4x4_mpgfl3m5_powers,
-      diff4x4_mpgfl3m6_powers, diff4x4_mpgfl3m7_powers, diff4x4_mpgfl3m8_powers};
-  const *arma_b_ptr[ABDEGS] = {diff4x4_armad1_b, diff4x4_armad2_b,
+      diff4x4_mpgfl2m8_powers};
+  const double *arma_b_ptr[ABDEGS] = {diff4x4_armad1_b, diff4x4_armad2_b,
                                diff4x4_armad3_b};
-  const *arma_a_ptr[ABDEGS] = {diff4x4_armad1_a, diff4x4_armad2_a,
+  const double *arma_a_ptr[ABDEGS] = {diff4x4_armad1_a, diff4x4_armad2_a,
                                diff4x4_armad3_a};
 
   // read inputs

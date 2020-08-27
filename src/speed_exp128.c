@@ -5,7 +5,7 @@
 
 #define LEN 128
 #define PGFDEG 10
-#define MPGFDEG 3
+#define MPGFDEG 2
 #define MAXM 8
 #define ABDEGS 3
 #define NITS 6
@@ -39,27 +39,23 @@ int main(int argc, char *argv[]) {
       exp128_cpgf4_coeffs, exp128_cpgf5_coeffs, exp128_cpgf6_coeffs,
       exp128_cpgf7_coeffs, exp128_cpgf8_coeffs, exp128_cpgf9_coeffs,
       exp128_cpgf10_coeffs};
-  const double *mpgf_coeffs_ptr[24] = {
+  const double *mpgf_coeffs_ptr[MPGFDEG * MAXM] = {
       exp128_mpgfl1m1_coeffs, exp128_mpgfl1m2_coeffs, exp128_mpgfl1m3_coeffs,
       exp128_mpgfl1m4_coeffs, exp128_mpgfl1m5_coeffs, exp128_mpgfl1m6_coeffs,
       exp128_mpgfl1m7_coeffs, exp128_mpgfl1m8_coeffs, exp128_mpgfl2m1_coeffs,
       exp128_mpgfl2m2_coeffs, exp128_mpgfl2m3_coeffs, exp128_mpgfl2m4_coeffs,
       exp128_mpgfl2m5_coeffs, exp128_mpgfl2m6_coeffs, exp128_mpgfl2m7_coeffs,
-      exp128_mpgfl2m8_coeffs, exp128_mpgfl3m1_coeffs, exp128_mpgfl3m2_coeffs,
-      exp128_mpgfl3m3_coeffs, exp128_mpgfl3m4_coeffs, exp128_mpgfl3m5_coeffs,
-      exp128_mpgfl3m6_coeffs, exp128_mpgfl3m7_coeffs, exp128_mpgfl3m8_coeffs};
-  const int *mpgf_powers_ptr[24] = {
+      exp128_mpgfl2m8_coeffs};
+  const int *mpgf_powers_ptr[MPGFDEG * MAXM] = {
       exp128_mpgfl1m1_powers, exp128_mpgfl1m2_powers, exp128_mpgfl1m3_powers,
       exp128_mpgfl1m4_powers, exp128_mpgfl1m5_powers, exp128_mpgfl1m6_powers,
       exp128_mpgfl1m7_powers, exp128_mpgfl1m8_powers, exp128_mpgfl2m1_powers,
       exp128_mpgfl2m2_powers, exp128_mpgfl2m3_powers, exp128_mpgfl2m4_powers,
       exp128_mpgfl2m5_powers, exp128_mpgfl2m6_powers, exp128_mpgfl2m7_powers,
-      exp128_mpgfl2m8_powers, exp128_mpgfl3m1_powers, exp128_mpgfl3m2_powers,
-      exp128_mpgfl3m3_powers, exp128_mpgfl3m4_powers, exp128_mpgfl3m5_powers,
-      exp128_mpgfl3m6_powers, exp128_mpgfl3m7_powers, exp128_mpgfl3m8_powers};
-  const *arma_b_ptr[ABDEGS] = {exp128_armad1_b, exp128_armad2_b,
+      exp128_mpgfl2m8_powers};
+  const double *arma_b_ptr[ABDEGS] = {exp128_armad1_b, exp128_armad2_b,
                                exp128_armad3_b};
-  const *arma_a_ptr[ABDEGS] = {exp128_armad1_a, exp128_armad2_a,
+  const double *arma_a_ptr[ABDEGS] = {exp128_armad1_a, exp128_armad2_a,
                                exp128_armad3_a};
 
   // read inputs
