@@ -7,6 +7,8 @@
 #define PGFDEG 10
 #define MPGFDEG 3
 #define MAXM 8
+#define ABDEGS 3
+#define NITS 6
 
 int main(int argc, char *argv[]) {
 
@@ -17,10 +19,15 @@ int main(int argc, char *argv[]) {
   double buffer_out_pgf[PGFDEG][BATCH_SIZE][LEN];
   double buffer_out_cpgf[PGFDEG][BATCH_SIZE][LEN];
   double buffer_out_mpgf[MPGFDEG * MAXM][BATCH_SIZE][LEN];
+  double buffer_out_arma[ABDEGS * NITS][BATCH_SIZE][LEN];
+
+  int kbs[ABDEGS] = {1, 2, 3};
+  int kas[ABDEGS] = {1, 2, 3};
 
   double diff;
   double acc_error_mat = 0, acc_error_pgf[PGFDEG] = {0},
-         acc_error_cpgf[PGFDEG] = {0}, acc_error_mpgf[MPGFDEG * MAXM] = {0};
+         acc_error_cpgf[PGFDEG] = {0}, acc_error_mpgf[MPGFDEG * MAXM] = {0},
+         acc_error_arma[ABDEGS * NITS] = {0};
 
   const double *pgf_coeffs_ptr[PGFDEG] = {
       exp4x4_pgf1_coeffs, exp4x4_pgf2_coeffs, exp4x4_pgf3_coeffs,
@@ -50,6 +57,10 @@ int main(int argc, char *argv[]) {
       exp4x4_mpgfl2m8_powers, exp4x4_mpgfl3m1_powers, exp4x4_mpgfl3m2_powers,
       exp4x4_mpgfl3m3_powers, exp4x4_mpgfl3m4_powers, exp4x4_mpgfl3m5_powers,
       exp4x4_mpgfl3m6_powers, exp4x4_mpgfl3m7_powers, exp4x4_mpgfl3m8_powers};
+  const *arma_b_ptr[ABDEGS] = {exp4x4_armad1_b, exp4x4_armad2_b,
+                               exp4x4_armad3_b};
+  const *arma_a_ptr[ABDEGS] = {exp4x4_armad1_a, exp4x4_armad2_a,
+                               exp4x4_armad3_a};
 
   // read inputs
   FILE *fp_in = fopen(argv[1], "r");
@@ -60,7 +71,8 @@ int main(int argc, char *argv[]) {
   int n_batches = ceil((double)n_inputs / (double)BATCH_SIZE);
   int cur_batch_size = 0;
   clock_t t_temp = 0, t_exact = 0, t_mat = 0, t_pgf[PGFDEG] = {0},
-          t_cpgf[PGFDEG] = {0}, t_mpgf[MPGFDEG * MAXM] = {0};
+          t_cpgf[PGFDEG] = {0}, t_mpgf[MPGFDEG * MAXM] = {0},
+          t_arma[ABDEGS * NITS] = {0};
 
   int ind = 0;
 
@@ -76,6 +88,8 @@ int main(int argc, char *argv[]) {
     memset(buffer_out_pgf, 0, PGFDEG * BATCH_SIZE * LEN * sizeof(double));
     memset(buffer_out_cpgf, 0, PGFDEG * BATCH_SIZE * LEN * sizeof(double));
     memset(buffer_out_mpgf, 0, MPGFDEG * MAXM * BATCH_SIZE * LEN * sizeof(double));
+    memset(buffer_out_arma, 0,
+           ABDEGS * NITS * BATCH_SIZE * LEN * sizeof(double));
 
     // Exact filter
     t_temp = clock();
@@ -149,6 +163,25 @@ int main(int argc, char *argv[]) {
       }
     }
 
+    // ARMA, CG
+    for (int d = 0; d < ABDEGS; d++) {
+      for (int it = 1; it <= NITS; it++) {
+        ind = d * NITS + it - 1;
+        t_temp = clock();
+        for (int i = 0; i < cur_batch_size; i++)
+          armagf_cg(buffer_in[i], buffer_out_arma[ind][i], LEN, it, kbs[d],
+                    arma_b_ptr[d], kas[d], arma_a_ptr[d], NE_LDD4X4, Ldd4x4_a,
+                    Ldd4x4_w);
+        t_arma[ind] += clock() - t_temp;
+        for (int i = 0; i < cur_batch_size; i++) {
+          for (int j = 0; j < LEN; j++) {
+            diff = buffer_out_exact[i][j] - buffer_out_arma[ind][i][j];
+            acc_error_arma[ind] += diff * diff;
+          }
+        }
+      }
+    }
+
 #if CONFIG_DEBUG
     // write output GFT coefficients
     for (int i = 0; i < cur_batch_size; i++) {
@@ -206,6 +239,15 @@ int main(int argc, char *argv[]) {
               l, m, time_mpgf);
       fprintf(fp_out, " (error = %.8lf)\n",
               acc_error_mpgf[(l - 1) * MAXM + m - 1] / ((double)n_inputs));
+    }
+  }
+  for (int d = 0; d < ABDEGS; d++) {
+    for (int it = 1; it <= NITS; it++) {
+      double time_arma = ((double)t_arma[d * NITS + it - 1]) / CLOCKS_PER_SEC;
+      fprintf(fp_out, "ARMA, CG (Q = %d, P = %d, iter = %d):    %.8lf", kbs[d],
+              kas[d], it, time_arma);
+      fprintf(fp_out, " (error = %.8lf)\n",
+              acc_error_arma[d * NITS + it - 1] / ((double)n_inputs));
     }
   }
 
