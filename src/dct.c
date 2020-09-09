@@ -2609,3 +2609,45 @@ void idct8x8(const double *input, double *output) {
       output[8 * c + i] = bf1[i];
   }
 }
+
+void dct16x16(const double *input, double *output) {
+  double bf0[16] = {0}, bf1[16] = {0};
+  double temp[256] = {0};
+  // apply dct16 row-wise
+  for (int r = 0; r < 16; r++) {
+    for (int i = 0; i < 16; i++)
+      bf0[i] = input[16 * i + r];
+    dct16(bf0, bf1);
+    for (int i = 0; i < 16; i++)
+      temp[16 * i + r] = bf1[i];
+  }
+  // apply dct16 column-wise
+  for (int c = 0; c < 16; c++) {
+    for (int i = 0; i < 16; i++)
+      bf0[i] = temp[16 * c + i];
+    dct16(bf0, bf1);
+    for (int i = 0; i < 16; i++)
+      output[16 * c + i] = bf1[i];
+  }
+}
+
+void idct16x16(const double *input, double *output) {
+  double bf0[16] = {0}, bf1[16] = {0};
+  double temp[256] = {0};
+  // apply idct16 row-wise
+  for (int r = 0; r < 16; r++) {
+    for (int i = 0; i < 16; i++)
+      bf0[i] = input[16 * i + r];
+    idct16(bf0, bf1);
+    for (int i = 0; i < 16; i++)
+      temp[16 * i + r] = bf1[i];
+  }
+  // apply idct16 column-wise
+  for (int c = 0; c < 16; c++) {
+    for (int i = 0; i < 16; i++)
+      bf0[i] = temp[16 * c + i];
+    idct16(bf0, bf1);
+    for (int i = 0; i < 16; i++)
+      output[16 * c + i] = bf1[i];
+  }
+}

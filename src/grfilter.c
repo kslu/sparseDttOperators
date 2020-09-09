@@ -46,12 +46,30 @@ void exact_filter_8x8(const double *input, double *output, const double *h) {
   return;
 }
 
+void exact_filter_16x16(const double *input, double *output, const double *h) {
+  double temp[256] = {0};
+  dct16x16(input, temp);
+  for (int i = 0; i < 256; i++)
+    temp[i] *= h[i];
+  idct16x16(temp, output);
+  return;
+}
+
 void exact_filter_32(const double *input, double *output, const double *h) {
   double temp[32] = {0};
   dct32(input, temp);
   for (int i = 0; i < 32; i++)
     temp[i] *= h[i];
   idct32(temp, output);
+  return;
+}
+
+void exact_filter_64(const double *input, double *output, const double *h) {
+  double temp[64] = {0};
+  dct64(input, temp);
+  for (int i = 0; i < 64; i++)
+    temp[i] *= h[i];
+  idct64(temp, output);
   return;
 }
 
@@ -166,6 +184,7 @@ void chebyshev_gf(const double *input, double *output, int n, int order,
     output[i] = 0.5 * coeffs[0] * twf_old[i] + coeffs[1] * twf_cur[i];
   }
 
+  // TODO: check "k<=order-1" or "k<=order"
   for (int k = 2; k <= order - 1; k++) {
     // twf_new is used as a buffer here
     apply_sparse_laplacian(twf_cur, twf_new, n, nedges, mev, adjlist, wlist);

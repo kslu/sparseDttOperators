@@ -32,3 +32,5 @@ void dct4x4(const double *input, double *output);
 void idct4x4(const double *input, double *output);
 void dct8x8(const double *input, double *output);
 void idct8x8(const double *input, double *output);
+void dct16x16(const double *input, double *output);
+void idct16x16(const double *input, double *output);
