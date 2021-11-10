@@ -43,8 +43,8 @@ set(gca, 'fontsize', 20);
 set(gcf, 'position', [0,0,600,400]);
 
 % axis([0,4,-0.4,1.5]);
-hgexport(gcf, 'example_mpgf_lp.png', hgexport('factorystyle'), ...
-    'format', 'png');
+hgexport(gcf, 'example_mpgf_lp.eps', hgexport('factorystyle'), ...
+    'format', 'eps');
 
 %% band-pass filter
 for l=1:M
@@ -70,5 +70,5 @@ ylabel('Frequency response');
 set(gca, 'fontsize', 20);
 set(gcf, 'position', [0,0,600,400]);
 
-hgexport(gcf, 'example_mpgf_bp.png', hgexport('factorystyle'), ...
-    'format', 'png');
+hgexport(gcf, 'example_mpgf_bp.eps', hgexport('factorystyle'), ...
+    'format', 'eps');

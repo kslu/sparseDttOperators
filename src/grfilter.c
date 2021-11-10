@@ -184,9 +184,8 @@ void chebyshev_gf(const double *input, double *output, int n, int order,
     output[i] = 0.5 * coeffs[0] * twf_old[i] + coeffs[1] * twf_cur[i];
   }
 
-  // TODO: check "k<=order-1" or "k<=order"
   for (int k = 2; k <= order - 1; k++) {
-    // twf_new is used as a buffer here
+    // twf_new is used as a temporary buffer here
     apply_sparse_laplacian(twf_cur, twf_new, n, nedges, mev, adjlist, wlist);
     for (int i = 0; i < n; i++) {
       twf_new[i] = 2 * inv_mev * twf_new[i] - twf_old[i];

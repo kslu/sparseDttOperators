@@ -4,8 +4,8 @@ function nextc=nextcomb(n,c)
 % 
 % nextc=nextcomb(n,c)
 % 
-% n: same as the parameters in "n choose k"
-% c: current combination. It must have size k and is sorted in increasing order
+% n: n for "n choose k"
+% c:    current combination. It must have size k and is sorted in increasing order
 % 
 % KS Lu
 % 20170401

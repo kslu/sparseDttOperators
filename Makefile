@@ -2,9 +2,7 @@ CC=gcc
 CFLAGS=-O2
 NFLAG=-Wno-nullability-completeness
 
-#all: speed_tikhonov4x4 speed_tikhonov8x8 speed_tikhonov32 speed_tikhonov128 speed_ideallowpass4x4 speed_ideallowpass8x8 speed_ideallowpass32 speed_ideallowpass128 speed_exp4x4 speed_exp8x8 speed_exp32 speed_exp128 speed_diffusion4x4 speed_diffusion8x8 speed_diffusion32 speed_diffusion128
-part: speed_tikhonov16x16 speed_tikhonov64 speed_ideallowpass16x16 speed_ideallowpass64 speed_exp16x16 speed_exp64 
-all: speed_tikhonov4x4 speed_tikhonov8x8 speed_tikhonov16x16 speed_tikhonov32 speed_tikhonov64 speed_tikhonov128 speed_ideallowpass4x4 speed_ideallowpass8x8 speed_ideallowpass16x16 speed_ideallowpass32 speed_ideallowpass64 speed_ideallowpass128 speed_exp4x4 speed_exp8x8 speed_exp16x16 speed_exp32 speed_exp64 speed_exp128 speed_diffusion4x4 speed_diffusion8x8 speed_diffusion16x16 speed_diffusion32 speed_diffusion64 speed_diffusion128
+all: speed_tikhonov16x16 speed_tikhonov64 speed_ideallowpass16x16 speed_ideallowpass64 speed_exp16x16 speed_exp64 
 
 speed_tikhonov4x4: grfilter.o dct.o speed_tikhonov4x4.o
 	$(CC) -o $@ $? -lm
@@ -178,4 +176,3 @@ test_cheby.o: test/test_cheby.c
 
 clean:
 		rm -rf *.o speed_tikhonov4x4 speed_tikhonov8x8 speed_tikhonov16x16 speed_tikhonov32 speed_tikhonov64 speed_tikhonov128 speed_ideallowpass4x4 speed_ideallowpass8x8 speed_ideallowpass16x16 speed_ideallowpass32 speed_ideallowpass64 speed_ideallowpass128 speed_exp4x4 speed_exp8x8 speed_exp16x16 speed_exp32 speed_exp64 speed_exp128 speed_diffusion4x4 speed_diffusion8x8 speed_diffusion16x16 speed_diffusion32 speed_diffusion64 speed_diffusion128 test_dct test_cheby test_arma
-#		rm -rf *.o speed_tikhonov4x4 speed_tikhonov8x8 speed_tikhonov32 speed_tikhonov128 speed_ideallowpass4x4 speed_ideallowpass8x8 speed_ideallowpass32 speed_ideallowpass128 speed_exp4x4 speed_exp8x8 speed_exp32 speed_exp128 speed_diffusion4x4 speed_diffusion8x8 speed_diffusion32 speed_diffusion128 test_dct test_cheby test_arma

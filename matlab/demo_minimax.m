@@ -46,5 +46,5 @@ text(0.7,1.35,'band','fontsize',16);
 text(1.4,1.45,'stopband','fontsize',16);
 axis([0,4,-0.4,1.5]);
 
-hgexport(gcf, 'example_ls_vs_minimax.png', hgexport('factorystyle'), ...
-    'format', 'png');
+hgexport(gcf, 'example_ls_vs_minimax.eps', hgexport('factorystyle'), ...
+    'format', 'eps');

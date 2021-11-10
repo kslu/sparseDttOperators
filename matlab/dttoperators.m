@@ -25,7 +25,7 @@ switch dttstr
         m=n+2;
     case {'dct2', 'dct8', 'dst2', 'dst5', 'dst6', 'dst7'}
         m=n+1;
-    case {'dct3', 'dct4', 'dct5', 'dct6', 'dct7', 'dst3', 'dst4', 'dst8'}
+    case {'dct1', 'dct3', 'dct4', 'dct5', 'dct6', 'dct7', 'dst3', 'dst4', 'dst8'}
         m=n;
 end
 

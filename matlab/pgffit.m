@@ -10,6 +10,7 @@ function [c,hfit,er,mevs]=pgffit(B,h,k,wf,use_minimax,mevs)
 %   h: desired frequency response
 %   k: polynomial order
 %   wf: frequency weighting
+%   use_minimax: whether or not to apply minimax criterion
 % 
 % Output arguments
 %   c: filter coefficients
